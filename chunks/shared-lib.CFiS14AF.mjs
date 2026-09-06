@@ -1,0 +1,2 @@
+import{t as e}from"./rolldown-runtime.BvHXOKAc.mjs";function t(e,t){return{description:`Merhaba, ben Baran. İnsanların işlerini en iyi şekilde yapmalarına yardımcı olan dijital deneyimler ve ürünler tasarlıyorum. ☀️`,favicon:`https://framerusercontent.com/assets/potqc1e78ykFKgIWmc4xIvb50.png`,robots:`max-image-preview:large`,socialImage:`https://framerusercontent.com/assets/rD6rBlswWHwt3kseTKnf98TFUQ8.png`,title:`Baran Bozkurt`}}var n=e((()=>{}));export{t as n,n as t};
+//# sourceMappingURL=shared-lib.CFiS14AF.mjs.map
