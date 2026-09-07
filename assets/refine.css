@@ -1,24 +1,42 @@
-/* refine.css — Baran Bozkurt sitesi için ince ayar katmanı.
-   Framer çıktısına dokunmadan: mobil duvarını kaldırır, taşmaları keser,
-   hero animasyonundaki üst üste binmeyi maskeler, erişilebilirliği artırır.
-   Tamamı CSS: React hydration'a dokunmadığı için sayfa hatasız açılır. */
+/* refine.css — Baran Bozkurt sitesi ince ayar katmanı (v2).
+   Framer çıktısına dokunmadan çalışır: sadece overlay düzeltme.
+   Hedefler:
+   1) Mobil taşma / yatay kayma / sağdan kesilen kartları bitir
+   2) Hero'da "Baran / Web Geliştirici / Yazılım" çakışmasını çöz
+   3) Sticky + scale(1.5) + absolute kolajların mobilde patlamasını engelle
+   4) Animasyonları mobilde hafiflet, reduced-motion'a saygı duy
+   5) Dokunma hedefi, odak, okunabilirlik gibi UX temellerini düzelt */
 
 :root {
   --bb-red: #e35342;
+  --bb-red-dark: #c74334;
   --bb-cream: #f5ece3;
   --bb-ink: #171717;
   --bb-title: rgb(227, 83, 66);
+  --bb-radius: 14px;
 }
 
-/* --- Yumuşak kaydırma (hareket hassasiyetine saygılı) --- */
+/* ============ 0. Temel kalite (tüm ekranlar) ============ */
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-wrap: break-word;
+}
+::selection {
+  background: var(--bb-red);
+  color: #fff;
 }
 
-/* --- Yatay taşmayı kilitle (mobilde sağa-sola kaymayı bitirir) --- */
+/* Yatay taşmayı kilitle — mobilde sağa-sola kayma hissini bitirir */
 html,
 body {
   overflow-x: clip;
+  max-width: 100vw;
 }
 @supports not (overflow: clip) {
   html,
@@ -26,81 +44,189 @@ body {
     overflow-x: hidden;
   }
 }
+#main,
+[data-framer-root] {
+  overflow-x: clip;
+  max-width: 100vw;
+}
+@supports not (overflow: clip) {
+  #main,
+  [data-framer-root] {
+    overflow-x: hidden;
+  }
+}
+
 img {
   max-width: 100%;
 }
 img[srcset] {
   height: auto;
 }
+/* Framer'in absolute image wrapper'ları taşmasın */
+[data-framer-background-image-wrapper] {
+  overflow: hidden;
+}
 
-/* --- "Mobilde masaüstünden gir" duvarını kaldır ---
-   Bu blok sadece küçük ekranda görünür; site artık mobil uyumlu. */
-.framer-1ixi539,
-.framer-m1zlop {
+/* Klavye odağı görünür olsun */
+:focus-visible {
+  outline: 3px solid var(--bb-red);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Atlama bağlantısı (refine.js ekler) */
+.bb-skip {
+  position: fixed;
+  top: -120px;
+  left: 16px;
+  z-index: 9999;
+  background: var(--bb-ink);
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 16px;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+.bb-skip:focus {
+  top: 12px;
+  color: #fff;
+}
+
+/* Üst menü: dokunma hedefi en az 44px + yumuşak hover */
+[data-framer-name="Texts"] a {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+@media (hover: hover) {
+  [data-framer-name="Texts"] a:hover {
+    opacity: 0.75;
+  }
+}
+
+/* Kart linklerine hafif hover (desktop) — Framer transform'unu ezmez */
+@media (hover: hover) and (min-width: 810px) {
+  a:has([data-framer-name^="Card"]) img {
+    transition: transform 0.35s ease;
+  }
+  a:has([data-framer-name^="Card"]):hover img {
+    transform: scale(1.03);
+  }
+}
+
+/* iOS 100vh sorunu: Framer min-height:100vh kullanır */
+@supports (-webkit-touch-callout: none) {
+  [data-framer-root] {
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* ============ 1. HERO düzeltmesi (tüm ekranlar) ============ */
+/* İmza SVG'si hydration'da boş kutu bırakabildiği için gizli;
+   yerine anında CSS pseudo + sonrasında refine.js gerçek metin düğüm
+   ekler (bb-hero-real). Pseudo ilk boyamada doğru metni gösterir,
+   JS bitince pseudo kapanır — boşluk/flash olmaz. */
+[data-framer-name="signature"] {
   display: none !important;
 }
-
-/* --- Hero kelime döndürücü: geçişte kelimeler üst üste binmesin --- */
-.framer-FzPWJ {
-  overflow: hidden !important;
-  border-radius: 6px;
-  max-width: 100%;
+[aria-label="Web Geliştirici"] {
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 2px !important;
 }
-.framer-FzPWJ p {
-  white-space: nowrap;
-}
-
-/* --- Hero unvanı: harf harf "Product Designer" animasyonu yerine
-   "Web Geliştirici" (CV ile çelişiyordu) --- */
+/* Harf harf "Product / Designer" animasyonunu gizle (rol zaten
+   aria-label="Web Geliştirici" — ekran okuyucu doğru okur) */
 [aria-label="Web Geliştirici"] [data-framer-name="Product"],
 [aria-label="Web Geliştirici"] [data-framer-name="Designer"] {
   display: none !important;
 }
-[aria-label="Web Geliştirici"] {
-  flex-direction: column !important;
-  align-items: flex-start !important;
-  gap: 0 !important;
-}
-[aria-label="Web Geliştirici"]::before {
+/* Anında fallback: JS çalışmadan önce doğru metin görünsün */
+[aria-label="Web Geliştirici"]:not(.bb-hero-done)::before {
   content: "Baran";
   display: block;
-  font-family: "Gochi Hand", cursive;
+  font-family: "Gochi Hand", "Caveat", cursive;
   font-weight: 400;
-  font-size: clamp(34px, 5vw, 52px);
+  font-size: clamp(30px, 4.6vw, 50px);
   line-height: 1;
-  margin: 0;
   color: var(--bb-title);
 }
-[aria-label="Web Geliştirici"]::after {
+[aria-label="Web Geliştirici"]:not(.bb-hero-done)::after {
   content: "Web Geliştirici";
-  display: inline-block;
+  display: block;
   font-family: "Awesome Serif Semi Bold Tall", Georgia, "Times New Roman", serif;
   font-weight: 600;
-  font-size: clamp(30px, 4.5vw, 44px);
-  line-height: 1.05;
-  letter-spacing: 0.5px;
+  font-size: clamp(24px, 3.6vw, 40px);
+  line-height: 1.08;
+  letter-spacing: 0.3px;
   color: var(--bb-title);
   white-space: nowrap;
+  max-width: 100%;
+}
+/* JS gerçek düğümü ekleyince pseudo'yu kapat (çift metin olmasın) */
+[aria-label="Web Geliştirici"].bb-hero-done::before,
+[aria-label="Web Geliştirici"].bb-hero-done::after {
+  content: none !important;
+  display: none !important;
+}
+/* refine.js'in eklediği gerçek hero metni */
+.bb-hero-real {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  line-height: 1;
+}
+.bb-hero-real .bb-hero-name {
+  font-family: "Gochi Hand", "Caveat", cursive;
+  font-weight: 400;
+  font-size: clamp(30px, 4.6vw, 50px);
+  line-height: 1;
+  color: var(--bb-title);
+  margin: 0;
+}
+.bb-hero-real .bb-hero-role {
+  font-family: "Awesome Serif Semi Bold Tall", Georgia, "Times New Roman", serif;
+  font-weight: 600;
+  font-size: clamp(24px, 3.6vw, 40px);
+  line-height: 1.08;
+  letter-spacing: 0.3px;
+  color: var(--bb-title);
+  margin: 0;
+  white-space: nowrap;
+  max-width: 100%;
 }
 
-/* --- Hero 2-3. satır: "doğal" kutusu 59px'e sabitlendiği için metin
-   taşıyor ve alt satırla üst üste biniyordu. Akışa bırak. --- */
+/* Hero başlık: "Yazılım / doğal / hissettirmeli" akışa bırak */
 [data-framer-name="Text"] {
   width: auto !important;
   max-width: 100%;
+  height: auto !important;
+  overflow: visible !important;
 }
 [data-framer-name="Text"] .framer-1optont {
   width: auto !important;
   flex: 0 0 auto !important;
   max-width: 100%;
 }
-[data-framer-name="Text"] .framer-17c6bhf-container {
-  flex: 0 0 auto !important;
-  width: auto !important;
+/* Dönen kelime kutusu: geçişte kelimeler üst üste binmesin */
+.framer-FzPWJ {
+  overflow: hidden !important;
   max-width: 100%;
 }
+.framer-FzPWJ p {
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
 
-/* --- Case-study hero logoları yerine proje adları --- */
+/* ============ 2. Case-study + about görsel yamaları ============ */
 img[src*="A9bJkjLMmAKP0QX32nvJNigugM"],
 img[src*="bXJuvfPkuzgeB0TgyJNhqiVfJk"],
 img[src*="taRUnHyefOhjChULaAIPPNbAoxQ"],
@@ -147,8 +273,6 @@ img[src*="ZvoYmF8fDid7ATpycsD0NLJnLI"] {
 [data-framer-background-image-wrapper]:has(> img[src*="ZvoYmF8fDid7ATpycsD0NLJnLI"])::after {
   content: "Kemal Güldüren Ortodonti";
 }
-
-/* --- Hakkında: başkasına ait fotoğraf yerine monogram --- */
 img[src*="I7rxe1hR9EPeVLJtc8OKabC4xE"] {
   display: none !important;
 }
@@ -166,87 +290,281 @@ img[src*="I7rxe1hR9EPeVLJtc8OKabC4xE"] {
   line-height: 1;
   color: var(--bb-title);
 }
-/* İmza SVG'leri hydration sırasında tanımsız kalabildiği için (boş kutu
-   bırakıyorlar) gizlenir; yerlerine metin sürümler gösterilir. */
-[data-framer-name="signature"] {
-  display: none !important;
-}
-a:not([href]):has(> [data-framer-name="signature"])::after {
-  content: "Baran";
-  font-family: "Gochi Hand", cursive;
-  font-size: 26px;
-  color: var(--bb-title);
-}
 
-/* --- Dokunma hedefleri: üst menü en az 44px --- */
-[data-framer-name="Texts"] a {
-  min-height: 44px;
-  min-width: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* --- Klavye odağı görünür olsun --- */
-:focus-visible {
-  outline: 3px solid var(--bb-red);
-  outline-offset: 3px;
-  border-radius: 4px;
-}
-
-/* --- Atlama bağlantısı (refine.js ekler) --- */
-.bb-skip {
-  position: fixed;
-  top: -100px;
-  left: 16px;
-  z-index: 9999;
-  background: var(--bb-ink);
-  color: #fff;
-  padding: 12px 18px;
-  border-radius: 10px;
-  font-size: 16px;
-  text-decoration: none;
-  transition: top 0.2s ease;
-}
-.bb-skip:focus {
-  top: 12px;
-  color: #fff;
-}
-
-/* --- Küçük ekranlar: hero ve büyük başlıklar taşmasın --- */
+/* ================================================================
+   3. MOBİL (max-width: 809.98px) — ekran görüntülerindeki
+   tüm kırılmalar burada kapanır.
+   ================================================================= */
 @media (max-width: 809.98px) {
-  [data-framer-name="Natural"] p,
-  [data-framer-name="Text"] p {
-    font-size: clamp(30px, 9.5vw, 45px) !important;
+  /* --- Kök 390px'e sabitlendiği için 360-375px cihazlarda taşıyordu.
+         Akışkan yap: her zaman viewport'a sığ. --- */
+  [data-framer-root],
+  [data-framer-root].framer-1fumeau,
+  .framer-Dz9w2.framer-1fumeau {
+    width: 100% !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    overflow-x: clip !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
-  [aria-label="Web Geliştirici"]::before {
-    font-size: 20px;
-    line-height: 1;
+  [data-framer-root] > * {
+    max-width: 100vw;
   }
-  [aria-label="Web Geliştirici"]::after {
-    font-size: 12px !important;
-    line-height: 1.4;
-    letter-spacing: 0.2px;
-    white-space: nowrap !important;
-    max-width: 100%;
+
+  /* %107 genişlik + negatif left kullanan şerit taşıyordu */
+  .framer-Dz9w2 .framer-wu9w8u {
+    width: 100% !important;
+    left: 0 !important;
   }
-  /* Dar ekranda "doğal hissettirmeli" alt alta insin, kesilmesin */
-  [data-framer-name="Text"] {
-    flex-wrap: wrap !important;
-    row-gap: 0 !important;
-    margin-bottom: 26px !important;
+  .framer-Dz9w2 .framer-9vsaio {
+    width: 100% !important;
+    left: 0 !important;
+    gap: 24px !important;
   }
-  /* Yan süs şeritleri içeriği ezmesin */
+
+  /* --- Yan süs şeritleri içeriği ezmesin: incelt + soluklaştır --- */
   [data-framer-name="Left Frame"],
   [data-framer-name="Right Frame"] {
-    opacity: 0.35;
+    opacity: 0.28 !important;
+    pointer-events: none !important;
+    max-width: 44px !important;
+  }
+
+  /* --- Üst menü: tek satırda sıkışmasın, sarılsın --- */
+  [data-framer-name="Texts"] {
+    flex-wrap: wrap !important;
+    row-gap: 4px !important;
+    column-gap: 2px !important;
+    max-width: 100% !important;
+  }
+  [data-framer-name="Texts"] p {
+    font-size: 17px !important;
+    line-height: 1.3 !important;
+  }
+
+  /* --- Hero mobil tipografisi: taşma yok, çakışma yok --- */
+  .bb-hero-real .bb-hero-name,
+  [aria-label="Web Geliştirici"]:not(.bb-hero-done)::before {
+    font-size: clamp(26px, 7.2vw, 34px);
+  }
+  .bb-hero-real .bb-hero-role,
+  [aria-label="Web Geliştirici"]:not(.bb-hero-done)::after {
+    font-size: clamp(21px, 5.8vw, 27px);
+    white-space: nowrap;
+  }
+  [data-framer-name="Natural"] p,
+  [data-framer-name="Text"] p {
+    font-size: clamp(34px, 10.5vw, 46px) !important;
+    line-height: 1.04 !important;
+  }
+  [data-framer-name="Text"] {
+    flex-wrap: wrap !important;
+    row-gap: 2px !important;
+    margin-bottom: 22px !important;
+  }
+  .framer-FzPWJ {
+    max-width: calc(100vw - 48px) !important;
+    border-radius: 6px;
+  }
+
+  /* --- Değer kartları: scale(1.5) mobilde ekranı patlatıyordu.
+         Ölçeği sıfırla, dikey istifle, hafif eğimi koru. --- */
+  [data-framer-name="Value block"] {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    gap: 18px !important;
+    height: auto !important;
+  }
+  [data-framer-name="Card 1"],
+  [data-framer-name="Card 2"],
+  [data-framer-name="Card 3"] {
+    transform: none !important;
+    scale: 1 !important;
+    rotate: none !important;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: min(88vw, 340px) !important;
+    max-width: calc(100vw - 32px) !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  /* Kart içindeki -50% translate'ler mobilde kaydırıyordu */
+  [data-framer-name="Card 1"] [style*="translate(-50%"],
+  [data-framer-name="Card 2"] [style*="translate(-50%"],
+  [data-framer-name="Card 3"] [style*="translate(-50%"] {
+    transform: none !important;
+  }
+  /* Kart metni küçük ekranda okunaklı kalsın */
+  [data-framer-name^="value"] p {
+    font-size: clamp(24px, 7vw, 30px) !important;
+    line-height: 1.05 !important;
+  }
+
+  /* --- Sticky "değer" sahnesi: 670px genişlik + sticky mobilde
+         hem taşma hem koca siyah boşluk bırakıyordu. Akışa al. --- */
+  .framer-1f3xht8-container,
+  .framer-1tmyxce-container,
+  [class*="1f3xht8-container"],
+  [class*="1tmyxce-container"] {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    max-width: calc(100vw - 32px) !important;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: auto !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  /* Sticky için bırakılan hayalet boşlukları kısalt (ekran görüntüsü 2/6) */
+  .framer-1e3md3h,
+  [class*="1e3md3h"] {
+    height: 48px !important;
+    min-height: 0 !important;
+    opacity: 0 !important;
+  }
+
+  /* --- Proje kolajı: 9 absolute kart desktop koordinatlarıyla
+         mobilde üst üste / ekran dışına taşıyordu. Dikey ızgara yap. --- */
+  .framer-6ctr7e-container,
+  .framer-11nqq4i-container,
+  .framer-5zt1ho-container,
+  .framer-1fickan-container,
+  .framer-gnejcv-container,
+  .framer-mqlzz-container,
+  .framer-1xalfcs-container,
+  .framer-1ggxag2-container,
+  .framer-f5j56f-container,
+  .framer-a3rb0z-container,
+  .framer-12kefb9-container,
+  .framer-1ettzhn-container,
+  .framer-1uw12gm-container,
+  .framer-p3jkcu-container,
+  .framer-2f5va1-container {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    width: min(86vw, 330px) !important;
+    max-width: calc(100vw - 40px) !important;
+    height: auto !important;
+    aspect-ratio: 4 / 3 !important;
+    margin: 10px auto !important;
+  }
+  /* Kolaj sarmalayıcıları dikey akışa zorla */
+  .framer-1ms7onh,
+  .framer-1qm8u55,
+  [class*="1ms7onh"] {
+    height: auto !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 24px 0 !important;
+    overflow: clip !important;
+  }
+
+  /* --- Kitap / kağıt bölümleri: iç padding + tam genişlik --- */
+  [data-framer-name="📖 Book Mobile"],
+  [data-framer-name="📖 Book container"],
+  [data-framer-name="✍️ Paper Page"] {
+    max-width: 100vw !important;
+    overflow: clip !important;
+  }
+
+  /* --- "Ne yapıyorum / Checklist" bölümü: soldan-sağdan kesilme
+         (ekran görüntüsü 7) — tek sütun + iç boşluk. --- */
+  [data-framer-name="Checklist"],
+  [data-framer-name="Content"],
+  [data-framer-name="Fundam"] {
+    max-width: 100% !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  [data-framer-name="Checklist"] p,
+  [data-framer-name="Content"] p {
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+    max-width: 100% !important;
+  }
+
+  /* --- Genel bölüm nefesliği: devasa siyah boşlukları buda --- */
+  .framer-e0imq9,
+  .framer-z381mk,
+  .framer-14owauc {
+    padding-top: 56px !important;
+    padding-bottom: 56px !important;
+  }
+  .framer-1vjfrm7 {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  /* --- Work / About sayfaları: sabit genişlikli şeritler --- */
+  .framer-Zfc2C .framer-1nldip0,
+  .framer-Zfc2C .framer-pet3hu {
+    width: 100% !important;
+    max-width: 100vw !important;
+    left: 0 !important;
+    transform: none !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .framer-Zfc2C .framer-faazwn-container {
+    left: auto !important;
+    right: 12px !important;
+  }
+  /* Emniyet filesi: mobilde hiçbir Framer kutusu viewport'u aşmasın */
+  [data-framer-root] {
+    overflow-x: clip !important;
+  }
+
+  /* --- Animasyon yükünü hafiflet: GPU'yu rahatlat, takılmayı azalt --- */
+  *,
+  *::before,
+  *::after {
+    will-change: auto !important;
+  }
+  /* Lenis smooth-scroll mobilde takılma yapıyorsa native'e bırak */
+  html.lenis,
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
   }
 }
 
-/* --- Hareket hassasiyeti: animasyonları durdur --- */
+/* Çok dar cihazlar (iPhone SE 320-360px): bir tur daha küçült */
+@media (max-width: 374.98px) {
+  [data-framer-name="Texts"] p {
+    font-size: 15.5px !important;
+  }
+  [data-framer-name="Natural"] p,
+  [data-framer-name="Text"] p {
+    font-size: clamp(30px, 11vw, 38px) !important;
+  }
+  .bb-hero-real .bb-hero-role,
+  [aria-label="Web Geliştirici"]:not(.bb-hero-done)::after {
+    font-size: 20px;
+  }
+}
+
+/* ============ 4. Hareket hassasiyeti ============ */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  html.lenis,
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
   }
   *,
   *::before,
@@ -255,9 +573,4 @@ a:not([href]):has(> [data-framer-name="signature"])::after {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-}
-
-::selection {
-  background: var(--bb-red);
-  color: #fff;
 }
