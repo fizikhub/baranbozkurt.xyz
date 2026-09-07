@@ -1,0 +1,263 @@
+/* refine.css — Baran Bozkurt sitesi için ince ayar katmanı.
+   Framer çıktısına dokunmadan: mobil duvarını kaldırır, taşmaları keser,
+   hero animasyonundaki üst üste binmeyi maskeler, erişilebilirliği artırır.
+   Tamamı CSS: React hydration'a dokunmadığı için sayfa hatasız açılır. */
+
+:root {
+  --bb-red: #e35342;
+  --bb-cream: #f5ece3;
+  --bb-ink: #171717;
+  --bb-title: rgb(227, 83, 66);
+}
+
+/* --- Yumuşak kaydırma (hareket hassasiyetine saygılı) --- */
+html {
+  scroll-behavior: smooth;
+}
+
+/* --- Yatay taşmayı kilitle (mobilde sağa-sola kaymayı bitirir) --- */
+html,
+body {
+  overflow-x: clip;
+}
+@supports not (overflow: clip) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+}
+img {
+  max-width: 100%;
+}
+img[srcset] {
+  height: auto;
+}
+
+/* --- "Mobilde masaüstünden gir" duvarını kaldır ---
+   Bu blok sadece küçük ekranda görünür; site artık mobil uyumlu. */
+.framer-1ixi539,
+.framer-m1zlop {
+  display: none !important;
+}
+
+/* --- Hero kelime döndürücü: geçişte kelimeler üst üste binmesin --- */
+.framer-FzPWJ {
+  overflow: hidden !important;
+  border-radius: 6px;
+  max-width: 100%;
+}
+.framer-FzPWJ p {
+  white-space: nowrap;
+}
+
+/* --- Hero unvanı: harf harf "Product Designer" animasyonu yerine
+   "Web Geliştirici" (CV ile çelişiyordu) --- */
+[aria-label="Web Geliştirici"] [data-framer-name="Product"],
+[aria-label="Web Geliştirici"] [data-framer-name="Designer"] {
+  display: none !important;
+}
+[aria-label="Web Geliştirici"] {
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 0 !important;
+}
+[aria-label="Web Geliştirici"]::before {
+  content: "Baran";
+  display: block;
+  font-family: "Gochi Hand", cursive;
+  font-weight: 400;
+  font-size: clamp(34px, 5vw, 52px);
+  line-height: 1;
+  margin: 0;
+  color: var(--bb-title);
+}
+[aria-label="Web Geliştirici"]::after {
+  content: "Web Geliştirici";
+  display: inline-block;
+  font-family: "Awesome Serif Semi Bold Tall", Georgia, "Times New Roman", serif;
+  font-weight: 600;
+  font-size: clamp(30px, 4.5vw, 44px);
+  line-height: 1.05;
+  letter-spacing: 0.5px;
+  color: var(--bb-title);
+  white-space: nowrap;
+}
+
+/* --- Hero 2-3. satır: "doğal" kutusu 59px'e sabitlendiği için metin
+   taşıyor ve alt satırla üst üste biniyordu. Akışa bırak. --- */
+[data-framer-name="Text"] {
+  width: auto !important;
+  max-width: 100%;
+}
+[data-framer-name="Text"] .framer-1optont {
+  width: auto !important;
+  flex: 0 0 auto !important;
+  max-width: 100%;
+}
+[data-framer-name="Text"] .framer-17c6bhf-container {
+  flex: 0 0 auto !important;
+  width: auto !important;
+  max-width: 100%;
+}
+
+/* --- Case-study hero logoları yerine proje adları --- */
+img[src*="A9bJkjLMmAKP0QX32nvJNigugM"],
+img[src*="bXJuvfPkuzgeB0TgyJNhqiVfJk"],
+img[src*="taRUnHyefOhjChULaAIPPNbAoxQ"],
+img[src*="ZvoYmF8fDid7ATpycsD0NLJnLI"] {
+  display: none !important;
+}
+[data-framer-background-image-wrapper]:has(
+  > img[src*="A9bJkjLMmAKP0QX32nvJNigugM"],
+  > img[src*="bXJuvfPkuzgeB0TgyJNhqiVfJk"],
+  > img[src*="taRUnHyefOhjChULaAIPPNbAoxQ"],
+  > img[src*="ZvoYmF8fDid7ATpycsD0NLJnLI"]
+) {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  text-align: center;
+}
+[data-framer-background-image-wrapper]:has(> img[src*="A9bJkjLMmAKP0QX32nvJNigugM"])::after,
+[data-framer-background-image-wrapper]:has(> img[src*="taRUnHyefOhjChULaAIPPNbAoxQ"])::after {
+  font-family: "Awesome Serif Semi Bold Tall", Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(34px, 5vw, 52px);
+  line-height: 1.1;
+  color: #1f2a5c;
+}
+[data-framer-background-image-wrapper]:has(> img[src*="A9bJkjLMmAKP0QX32nvJNigugM"])::after {
+  content: "FizikHub";
+}
+[data-framer-background-image-wrapper]:has(> img[src*="taRUnHyefOhjChULaAIPPNbAoxQ"])::after {
+  content: "Atlas Diş";
+}
+[data-framer-background-image-wrapper]:has(> img[src*="bXJuvfPkuzgeB0TgyJNhqiVfJk"])::after,
+[data-framer-background-image-wrapper]:has(> img[src*="ZvoYmF8fDid7ATpycsD0NLJnLI"])::after {
+  font-family: "Awesome Serif Semi Bold Tall", Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(24px, 3.4vw, 36px);
+  line-height: 1.15;
+  color: #1f2a5c;
+}
+[data-framer-background-image-wrapper]:has(> img[src*="bXJuvfPkuzgeB0TgyJNhqiVfJk"])::after {
+  content: "Tarihi Van Kahvaltı Evi";
+}
+[data-framer-background-image-wrapper]:has(> img[src*="ZvoYmF8fDid7ATpycsD0NLJnLI"])::after {
+  content: "Kemal Güldüren Ortodonti";
+}
+
+/* --- Hakkında: başkasına ait fotoğraf yerine monogram --- */
+img[src*="I7rxe1hR9EPeVLJtc8OKabC4xE"] {
+  display: none !important;
+}
+[data-framer-background-image-wrapper]:has(> img[src*="I7rxe1hR9EPeVLJtc8OKabC4xE"]) {
+  background: var(--bb-cream) !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+[data-framer-background-image-wrapper]:has(> img[src*="I7rxe1hR9EPeVLJtc8OKabC4xE"])::after {
+  content: "BB";
+  font-family: "Awesome Serif Semi Bold Tall", Georgia, serif;
+  font-weight: 600;
+  font-size: 64px;
+  line-height: 1;
+  color: var(--bb-title);
+}
+/* İmza SVG'leri hydration sırasında tanımsız kalabildiği için (boş kutu
+   bırakıyorlar) gizlenir; yerlerine metin sürümler gösterilir. */
+[data-framer-name="signature"] {
+  display: none !important;
+}
+a:not([href]):has(> [data-framer-name="signature"])::after {
+  content: "Baran";
+  font-family: "Gochi Hand", cursive;
+  font-size: 26px;
+  color: var(--bb-title);
+}
+
+/* --- Dokunma hedefleri: üst menü en az 44px --- */
+[data-framer-name="Texts"] a {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Klavye odağı görünür olsun --- */
+:focus-visible {
+  outline: 3px solid var(--bb-red);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* --- Atlama bağlantısı (refine.js ekler) --- */
+.bb-skip {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 9999;
+  background: var(--bb-ink);
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 16px;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+.bb-skip:focus {
+  top: 12px;
+  color: #fff;
+}
+
+/* --- Küçük ekranlar: hero ve büyük başlıklar taşmasın --- */
+@media (max-width: 809.98px) {
+  [data-framer-name="Natural"] p,
+  [data-framer-name="Text"] p {
+    font-size: clamp(30px, 9.5vw, 45px) !important;
+  }
+  [aria-label="Web Geliştirici"]::before {
+    font-size: 20px;
+    line-height: 1;
+  }
+  [aria-label="Web Geliştirici"]::after {
+    font-size: 12px !important;
+    line-height: 1.4;
+    letter-spacing: 0.2px;
+    white-space: nowrap !important;
+    max-width: 100%;
+  }
+  /* Dar ekranda "doğal hissettirmeli" alt alta insin, kesilmesin */
+  [data-framer-name="Text"] {
+    flex-wrap: wrap !important;
+    row-gap: 0 !important;
+    margin-bottom: 26px !important;
+  }
+  /* Yan süs şeritleri içeriği ezmesin */
+  [data-framer-name="Left Frame"],
+  [data-framer-name="Right Frame"] {
+    opacity: 0.35;
+  }
+}
+
+/* --- Hareket hassasiyeti: animasyonları durdur --- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+::selection {
+  background: var(--bb-red);
+  color: #fff;
+}
