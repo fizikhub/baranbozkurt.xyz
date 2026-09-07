@@ -239,7 +239,113 @@ a:not([href]):has(> [data-framer-name="signature"])::after {
   /* Yan süs şeritleri içeriği ezmesin */
   [data-framer-name="Left Frame"],
   [data-framer-name="Right Frame"] {
-    opacity: 0.35;
+    display: none !important;
+  }
+
+  /* --- Değer kolajı: 670px'lik masaüstü sahne mobilde sığmıyordu ---
+     Yapışkan (sticky) pin mobilde kapatılır, sahne akışa alınır ve
+     tamamı görünecek şekilde ölçeklenir. İç mutlak konumlar bozulmaz. */
+  .framer-1f3xht8-container {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    align-self: flex-start !important;
+    justify-self: start !important;
+    width: 670px !important;
+    max-width: none !important;
+    height: 497px !important;
+    min-height: 0 !important;
+    margin: 0 0 -209px !important;
+    transform: scale(0.58) !important;
+    transform-origin: top left !important;
+  }
+
+  /* --- Kaydırma mesafe parçaları mobilde dev boşluk bırakıyordu --- */
+  [data-framer-name="Spacer"] {
+    height: 72px !important;
+    min-height: 0 !important;
+  }
+  [data-framer-name="Middle spacer"][data-framer-name] {
+    height: 24px !important;
+    min-height: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    flex: none !important;
+  }
+
+  /* Bölüm satır-esnek (row) kaldığı için sütunlar yan yana dizilip
+     taşıyordu; mobilde alt alta alınır. */
+  [data-framer-name="Anlar için geliştirmek"],
+  [data-framer-name="Tirelessly Pursue Clarity"],
+  [data-framer-name="Yazılım güç vermelidir"] {
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+  }
+  /* "Yazılım" bölümündeki isimsiz 1px kart sütunu: Right col ile aynı
+     işlem — tam genişlik, kartlar ortalanır, süs dilimleri gizlenir. */
+  [data-framer-name="Yazılım güç vermelidir"] > DIV {
+    flex: none !important;
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 auto !important;
+    padding: 0 24px !important;
+  }
+  [data-framer-name="Yazılım güç vermelidir"] > DIV > * {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    max-width: 330px !important;
+    margin: 0 auto 22px !important;
+  }
+  [data-framer-name="Yazılım güç vermelidir"] > DIV > [data-framer-name^="Slice"] {
+    display: none !important;
+  }
+
+  /* --- "Anlar için geliştirmek": sağ sütun 1px'e çöküp ekran dışına
+     taşıyordu (x=406). Sütun tam genişliğe alınır, kartlar alt alta
+     ortalanır; süs dilimleri gizlenir. --- */
+  [data-framer-name="Value block"] {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  [data-framer-name="Right col"] {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    flex: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 auto !important;
+    padding: 0 24px !important;
+  }
+  [data-framer-name="Right col"] > * {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    max-width: 330px !important;
+    margin: 0 auto 22px !important;
+  }
+  [data-framer-name="Right col"] > * > a {
+    width: 100% !important;
+    max-width: 330px !important;
+  }
+  [data-framer-name="Right col"] > [data-framer-name^="Slice"] {
+    display: none !important;
   }
 }
 
