@@ -1,108 +1,197 @@
-const products = {
-  gazel: {
-    title: "Gazel",
-    type: "Oval traverten masa · Yemek takımı",
-    image: "assets/products/gazel.jpg",
-    alt: "Oval traverten masa ve altı adet hasır detaylı Gazel sandalye",
-    description: "Yumuşak oval formu, doğal taş görünümü ve hasır sırt detaylarıyla kalabalık sofralara ferah bir çevre kurar.",
-    features: ["Oval traverten masa", "Kayın ağacı Gazel sandalye", "Renk ve cila seçenekleri", "2 yıl iskelet garantisi"]
-  },
-  joy: {
-    title: "Joy",
-    type: "70 cm seramik masa · Bistro takımı",
-    image: "assets/products/joy.jpg",
-    alt: "Seramik yuvarlak Joy masa ve iki adet hasır sırtlı Lizbon sandalye",
-    description: "Küçük yemek alanları ve mutfak köşeleri için heykelsi ayak formuyla ölçülü ama karakterli bir çözüm.",
-    features: ["70 cm seramik tabla", "Heykelsi masif ayak", "Kayın ağacı Lizbon sandalye", "Kumaş ve cila seçimi"]
-  },
-  zen: {
-    title: "Zen",
-    type: "Masa · Siena sandalye",
-    image: "assets/products/zen.jpg",
-    alt: "Siyah Zen masa ve dört adet Siena sandalye",
-    description: "Net çizgiler, koyu ahşap ve açık döşemeyi bir araya getiren dengeli bir günlük yemek alanı.",
-    features: ["Zen masa modeli", "Kayın ağacı Siena sandalye", "Farklı renk ve cila seçenekleri", "2 yıl iskelet garantisi"]
-  },
-  oval: {
-    title: "Oval",
-    type: "PTT ayak masa · Yemek takımı",
-    image: "assets/products/oval.jpg",
-    alt: "Oval koyu ahşap masa ve altı adet döşemeli sandalye",
-    description: "Akıcı tabla formu ve dikey yivli ayakları, altı kişilik sofraya güçlü ve sakin bir merkez kazandırır.",
-    features: ["Oval PTT ayak masa", "Kayın ağacı sandalye", "Altı kişilik yerleşim", "Renk ve cila seçenekleri"]
-  },
-  bonita: {
-    title: "Bonita",
-    type: "Köşe koltuk",
-    image: "assets/products/bonita.jpg",
-    alt: "Açık renk Bonita köşe koltuk ve yemek alanı",
-    description: "Derin oturumu ve yalın modüler görünümüyle yaşam alanını ağırlaştırmadan geniş bir dinlenme yüzeyi sunar.",
-    features: ["Geniş köşe oturum", "Yumuşak dokulu döşeme", "Dekoratif kırlentler", "Mekâna göre bilgi ve fiyat"]
-  }
-};
+const products = [
+  { id: "gazel", title: "Gazel Traverten Yemek Takımı", category: "Yemek Takımları", price: 54900, image: "assets/products/gazel.jpg", badge: "Yeni", description: "Oval traverten masa ve kayın ağacı Gazel sandalyelerle altı kişilik dengeli bir yemek alanı.", features: ["Oval traverten tabla", "6 adet kayın ağacı sandalye", "Renk ve cila seçeneği", "2 yıl iskelet garantisi"] },
+  { id: "joy", title: "Joy Seramik Bistro Takımı", category: "Masalar", price: 24900, image: "assets/products/joy.jpg", badge: "Yeni", description: "70 cm seramik tabla, heykelsi masif ayak ve iki adet hasır sırtlı Lizbon sandalye.", features: ["70 cm seramik tabla", "Masif ahşap ayak", "2 adet Lizbon sandalye", "Kumaş ve cila seçeneği"] },
+  { id: "zen", title: "Zen Masa & Siena Sandalye", category: "Yemek Takımları", price: 44900, image: "assets/products/zen.jpg", badge: "Çok satan", description: "Koyu tonlu Zen masa ve dört adet açık döşemeli Siena sandalye ile net, zamansız bir takım.", features: ["Zen masa modeli", "4 adet Siena sandalye", "Kayın ağacı iskelet", "2 yıl iskelet garantisi"] },
+  { id: "oval", title: "Oval PTT Ayak Yemek Takımı", category: "Yemek Takımları", price: 49900, image: "assets/products/oval.jpg", badge: "Yeni", description: "Akıcı oval tabla, yivli PTT ayak ve altı adet döşemeli sandalye ile güçlü bir sofra merkezi.", features: ["Oval tabla", "Yivli PTT ayak", "6 adet sandalye", "Renk ve kumaş seçeneği"] },
+  { id: "bonita", title: "Bonita Köşe Koltuk", category: "Koltuklar", price: 42900, image: "assets/products/bonita.jpg", badge: "Yeni", description: "Geniş oturumu ve yalın modüler görünümüyle ferah yaşam alanları için açık renk köşe koltuk.", features: ["Geniş köşe oturum", "Yumuşak dokulu kumaş", "Dekoratif kırlentler", "Ölçü için danışmanlık"] },
+  { id: "gazel-chair", title: "Gazel Hasır Sandalye", category: "Sandalyeler", price: 6250, image: "assets/products/gazel.jpg", badge: "Tekli satış", description: "Kavisli kol yapısı ve doğal hasır sırtıyla yemek masalarının çevresinde hafif ve rahat bir oturum.", features: ["Kayın ağacı iskelet", "Doğal hasır sırt", "Silinebilir kumaş seçeneği", "2 yıl iskelet garantisi"] },
+  { id: "siena-chair", title: "Siena Kollu Sandalye", category: "Sandalyeler", price: 5950, image: "assets/products/zen.jpg", badge: "Tekli satış", description: "Koyu ahşap gövde, yumuşak döşeme ve çevreleyen kol yapısıyla uzun sofralar için konforlu sandalye.", features: ["Kayın ağacı iskelet", "Kollu tasarım", "Kumaş ve cila seçeneği", "2 yıl iskelet garantisi"] },
+  { id: "joy-table", title: "Joy Seramik Masa", category: "Masalar", price: 16500, image: "assets/products/joy.jpg", badge: "70 cm", description: "Dar mutfaklar ve kahve köşeleri için seramik tablalı, heykelsi masif ayaklı kompakt masa.", features: ["70 cm seramik tabla", "Masif ahşap ayak", "İki kişilik kullanım", "Cila seçeneği"] }
+];
 
-const header = document.querySelector("[data-header]");
-const menuButton = document.querySelector("[data-menu-toggle]");
-const menuPanel = document.querySelector("[data-menu-panel]");
-const dialog = document.querySelector("[data-dialog]");
+const money = value => new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(value);
+const productById = id => products.find(product => product.id === id);
+const grid = document.querySelector("[data-product-grid]");
+const resultStatus = document.querySelector("[data-result-status]");
+const cartCount = document.querySelector("[data-cart-count]");
+const cartItems = document.querySelector("[data-cart-items]");
+const cartTotal = document.querySelector("[data-cart-total]");
+const cartSummary = document.querySelector("[data-cart-summary]");
+const toast = document.querySelector("[data-toast]");
+const quickview = document.querySelector("[data-quickview-dialog]");
+let activeCategory = "Tümü";
+let searchQuery = "";
+let sortMode = "featured";
+let activeSlide = 0;
+let quickviewId = null;
+let toastTimer;
+let cart = {};
+try { cart = JSON.parse(localStorage.getItem("ahmet-cart") || "{}"); } catch { localStorage.removeItem("ahmet-cart"); }
 
-const setHeader = () => header.classList.toggle("is-scrolled", window.scrollY > 24);
-setHeader();
-window.addEventListener("scroll", () => {
-  setHeader();
-  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    document.querySelector(".hero").style.setProperty("--hero-shift", Math.min(window.scrollY / innerHeight, 1));
-  }
-}, { passive: true });
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add("is-visible");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("is-visible"), 2200);
+}
 
-const closeMenu = () => {
-  document.body.classList.remove("menu-open");
-  header.classList.remove("menu-active");
-  menuPanel.classList.remove("is-open");
-  menuPanel.setAttribute("aria-hidden", "true");
-  menuButton.setAttribute("aria-expanded", "false");
-  menuButton.setAttribute("aria-label", "Menüyü aç");
-};
-
-menuButton.addEventListener("click", () => {
-  const open = menuButton.getAttribute("aria-expanded") === "false";
-  if (!open) return closeMenu();
-  document.body.classList.add("menu-open");
-  header.classList.add("menu-active");
-  menuPanel.classList.add("is-open");
-  menuPanel.setAttribute("aria-hidden", "false");
-  menuButton.setAttribute("aria-expanded", "true");
-  menuButton.setAttribute("aria-label", "Menüyü kapat");
-});
-
-menuPanel.querySelectorAll("a").forEach(link => link.addEventListener("click", closeMenu));
-
-document.querySelectorAll("[data-product]").forEach(card => {
-  card.querySelector("button").addEventListener("click", () => {
-    const item = products[card.dataset.product];
-    dialog.querySelector("[data-dialog-title]").textContent = item.title;
-    dialog.querySelector("[data-dialog-type]").textContent = item.type;
-    dialog.querySelector("[data-dialog-description]").textContent = item.description;
-    const image = dialog.querySelector("[data-dialog-image]");
-    image.src = item.image;
-    image.alt = item.alt;
-    const features = dialog.querySelector("[data-dialog-features]");
-    features.replaceChildren(...item.features.map(feature => {
-      const li = document.createElement("li");
-      li.textContent = feature;
-      return li;
-    }));
-    dialog.showModal();
-    document.body.style.overflow = "hidden";
+function getFilteredProducts() {
+  const query = searchQuery.trim().toLocaleLowerCase("tr-TR");
+  const list = products.filter(product => {
+    const inCategory = activeCategory === "Tümü" || product.category === activeCategory;
+    const inSearch = !query || `${product.title} ${product.category}`.toLocaleLowerCase("tr-TR").includes(query);
+    return inCategory && inSearch;
   });
+  if (sortMode === "price-asc") return list.sort((a, b) => a.price - b.price);
+  if (sortMode === "price-desc") return list.sort((a, b) => b.price - a.price);
+  return list;
+}
+
+function renderProducts() {
+  const items = getFilteredProducts();
+  resultStatus.textContent = searchQuery || activeCategory !== "Tümü" ? `${items.length} ürün gösteriliyor` : "";
+  if (!items.length) {
+    grid.innerHTML = `<div class="empty-products"><i class="ph ph-magnifying-glass"></i><strong>Aradığınız ürünü bulamadık</strong><span>Başka bir model veya kategori deneyin.</span></div>`;
+    return;
+  }
+  grid.innerHTML = items.map(product => `
+    <article class="product-card">
+      <button class="favorite-button" type="button" aria-label="${product.title} ürününü favorilere ekle" data-favorite><i class="ph ph-heart"></i></button>
+      <button class="product-visual" type="button" aria-label="${product.title} detaylarını aç" data-quickview="${product.id}">
+        <img src="${product.image}" alt="${product.title}" width="1179" height="900" loading="lazy">
+        <span class="product-badge">${product.badge}</span>
+      </button>
+      <div class="product-copy">
+        <span class="product-category">${product.category}</span>
+        <h3>${product.title}</h3>
+        <div class="product-price"><strong>${money(product.price)}</strong><small>Demo satış fiyatı</small></div>
+        <button class="add-button" type="button" data-add="${product.id}">Sepete ekle</button>
+      </div>
+    </article>`).join("");
+}
+
+function saveCart() {
+  localStorage.setItem("ahmet-cart", JSON.stringify(cart));
+  renderCart();
+}
+
+function addToCart(id) {
+  cart[id] = (cart[id] || 0) + 1;
+  saveCart();
+  showToast(`${productById(id).title} sepete eklendi`);
+}
+
+function renderCart() {
+  const entries = Object.entries(cart).filter(([id, quantity]) => productById(id) && quantity > 0);
+  const totalQuantity = entries.reduce((sum, [, quantity]) => sum + quantity, 0);
+  const total = entries.reduce((sum, [id, quantity]) => sum + productById(id).price * quantity, 0);
+  cartCount.textContent = totalQuantity;
+  cartTotal.textContent = money(total);
+  cartSummary.querySelector("button").disabled = !entries.length;
+  if (!entries.length) {
+    cartItems.innerHTML = `<div class="cart-empty"><i class="ph ph-shopping-bag-open"></i><strong>Sepetiniz henüz boş</strong><span>Beğendiğiniz ürünleri buraya ekleyin.</span></div>`;
+    return;
+  }
+  cartItems.innerHTML = entries.map(([id, quantity]) => {
+    const product = productById(id);
+    return `<article class="cart-item">
+      <img src="${product.image}" alt="" width="80" height="96">
+      <div><h3>${product.title}</h3><p>${money(product.price * quantity)}</p>
+        <div class="cart-quantity"><button type="button" aria-label="Adedi azalt" data-decrease="${id}">−</button><span>${quantity}</span><button type="button" aria-label="Adedi artır" data-increase="${id}">+</button></div>
+      </div>
+      <button class="remove-item" type="button" aria-label="${product.title} ürününü sepetten çıkar" data-remove="${id}"><i class="ph ph-trash"></i></button>
+    </article>`;
+  }).join("");
+}
+
+function openDrawer(drawer) {
+  closeDrawers();
+  drawer.classList.add("is-open");
+  drawer.setAttribute("aria-hidden", "false");
+  document.querySelector("[data-overlay]").classList.add("is-active");
+  document.body.classList.add("drawer-open");
+}
+
+function closeDrawers() {
+  document.querySelectorAll(".drawer").forEach(drawer => { drawer.classList.remove("is-open"); drawer.setAttribute("aria-hidden", "true"); });
+  document.querySelector("[data-overlay]").classList.remove("is-active");
+  document.body.classList.remove("drawer-open");
+}
+
+function selectCategory(category) {
+  activeCategory = category;
+  searchQuery = "";
+  document.querySelectorAll("[data-search-input]").forEach(input => { input.value = ""; });
+  document.querySelectorAll(".filter-chips [data-category]").forEach(button => button.classList.toggle("is-active", button.dataset.category === category));
+  renderProducts();
+  closeDrawers();
+  document.querySelector("#products").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+}
+
+function syncFilterChips() {
+  document.querySelectorAll(".filter-chips [data-category]").forEach(button => button.classList.toggle("is-active", button.dataset.category === activeCategory));
+}
+
+function showSlide(index) {
+  const slides = [...document.querySelectorAll(".hero-slide")];
+  const dots = [...document.querySelectorAll("[data-slide]")];
+  activeSlide = (index + slides.length) % slides.length;
+  slides.forEach((slide, i) => slide.classList.toggle("is-active", i === activeSlide));
+  dots.forEach((dot, i) => { dot.classList.toggle("is-active", i === activeSlide); dot.setAttribute("aria-selected", String(i === activeSlide)); });
+}
+
+function openQuickview(id) {
+  const product = productById(id);
+  quickviewId = id;
+  const image = quickview.querySelector("[data-quickview-image]");
+  image.src = product.image;
+  image.alt = product.title;
+  quickview.querySelector("[data-quickview-category]").textContent = product.category;
+  quickview.querySelector("[data-quickview-title]").textContent = product.title;
+  quickview.querySelector("[data-quickview-price]").textContent = money(product.price);
+  quickview.querySelector("[data-quickview-description]").textContent = product.description;
+  quickview.querySelector("[data-quickview-features]").innerHTML = product.features.map(feature => `<li>${feature}</li>`).join("");
+  quickview.showModal();
+}
+
+document.addEventListener("click", event => {
+  const category = event.target.closest("[data-category]");
+  const add = event.target.closest("[data-add]");
+  const view = event.target.closest("[data-quickview]");
+  const favorite = event.target.closest("[data-favorite]");
+  if (category) selectCategory(category.dataset.category);
+  if (add) addToCart(add.dataset.add);
+  if (view) openQuickview(view.dataset.quickview);
+  if (favorite) {
+    favorite.classList.toggle("is-active");
+    favorite.querySelector("i").className = favorite.classList.contains("is-active") ? "ph-fill ph-heart" : "ph ph-heart";
+  }
+  if (event.target.closest("[data-open-menu]")) openDrawer(document.querySelector("[data-menu-drawer]"));
+  if (event.target.closest("[data-open-cart]")) openDrawer(document.querySelector("[data-cart-drawer]"));
+  if (event.target.closest("[data-close-drawers]") || event.target.matches("[data-overlay]")) closeDrawers();
+  if (event.target.closest("[data-hero-prev]")) showSlide(activeSlide - 1);
+  if (event.target.closest("[data-hero-next]")) showSlide(activeSlide + 1);
+  const dot = event.target.closest("[data-slide]");
+  if (dot) showSlide(Number(dot.dataset.slide));
+  const decrease = event.target.closest("[data-decrease]");
+  const increase = event.target.closest("[data-increase]");
+  const remove = event.target.closest("[data-remove]");
+  if (decrease) { cart[decrease.dataset.decrease] -= 1; if (cart[decrease.dataset.decrease] <= 0) delete cart[decrease.dataset.decrease]; saveCart(); }
+  if (increase) { cart[increase.dataset.increase] += 1; saveCart(); }
+  if (remove) { delete cart[remove.dataset.remove]; saveCart(); }
+  if (event.target.closest("[data-search-trigger]")) document.querySelector(".mobile-search input").focus();
 });
 
-const closeDialog = () => {
-  dialog.close();
-  document.body.style.overflow = "";
-};
-dialog.querySelector("[data-dialog-close]").addEventListener("click", closeDialog);
-dialog.addEventListener("click", event => {
-  if (event.target === dialog) closeDialog();
+document.querySelectorAll(".search-form").forEach(form => {
+  form.addEventListener("submit", event => { event.preventDefault(); searchQuery = form.querySelector("input").value; activeCategory = "Tümü"; renderProducts(); document.querySelector("#products").scrollIntoView({ behavior: "smooth" }); });
 });
-dialog.addEventListener("close", () => { document.body.style.overflow = ""; });
+document.querySelectorAll("[data-search-input]").forEach(input => input.addEventListener("input", () => { searchQuery = input.value; activeCategory = "Tümü"; syncFilterChips(); renderProducts(); }));
+document.querySelector("[data-sort]").addEventListener("change", event => { sortMode = event.target.value; renderProducts(); });
+document.querySelector("[data-close-quickview]").addEventListener("click", () => quickview.close());
+quickview.querySelector("[data-quickview-add]").addEventListener("click", () => { addToCart(quickviewId); quickview.close(); openDrawer(document.querySelector("[data-cart-drawer]")); });
+quickview.addEventListener("click", event => { if (event.target === quickview) quickview.close(); });
+document.querySelector("[data-create-order]").addEventListener("click", () => showToast("Demo sipariş özeti hazırlandı"));
+document.addEventListener("keydown", event => { if (event.key === "Escape") closeDrawers(); });
+
+renderProducts();
+renderCart();

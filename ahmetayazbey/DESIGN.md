@@ -1,37 +1,25 @@
-# Ahmet Ayazbey Visual System
+# Ahmet Ayazbey Store Visual System
 
 ## Direction
-
-Mobile-first product showroom. The physical scene is a softly lit Istanbul apartment where dark timber, pale upholstery and stone surfaces are seen in real use. The interface behaves like a quiet gallery label around those objects.
-
-## Signature
-
-The hero opens with a single cobalt “aperture” sweep across a real product image. Cobalt returns only for high-intent actions and factual highlights, making it a recognizable but restrained mark.
+Mobile-first furniture commerce: dense enough to feel like a real store, quiet enough for real product photography to lead. The visual source is the user's Turkish furniture-commerce references: announcement, functional header, search, category shortcuts, trust benefits, two-column product grid, category panels and cart.
 
 ## Color
-
-- Stage: `oklch(0.07 0 0)`
-- Ink: `oklch(0.13 0.01 262)`
+- Ink: `oklch(0.16 0 0)`
 - Canvas: `oklch(1 0 0)`
-- Surface: `oklch(0.955 0.004 262)`
-- Muted: `oklch(0.46 0.015 262)`
-- Brand cobalt: `oklch(0.34 0.159 262.4)`
+- Soft surface: `oklch(0.965 0 0)`
+- Muted: `oklch(0.47 0 0)`
+- Walnut accent: `oklch(0.48 0.075 55)`
 
-Strategy: restrained black and true white with cobalt under ten percent of the visual field.
+Black and true white dominate. Walnut is used only for selected facts, icons and material cues.
 
 ## Typography
-
-- Display: Gloock, used for emotional phrases and no more than one focal headline per section.
-- Interface and body: Archivo variable, width axis slightly condensed for a furniture-label quality.
-- Display tracking never tighter than `-0.04em`; prose is capped near 52 characters where possible.
+Manrope is the single commerce family. Its compact forms support Turkish text, prices and dense mobile controls without a luxury-editorial affectation.
 
 ## Layout
+The mobile storefront follows a practical vertical rhythm: promotion → sticky header → search → category circles → campaign hero → service benefits → two-column product grid → room categories → custom order. Desktop expands to a four-column product grid and split campaign composition.
 
-Mobile uses full-width images, a two-column asymmetrical collection and persistent contact access. Desktop expands into a 12-column gallery with deliberate stagger rather than equal cards.
+## Components
+Square-cornered search and actions, circular category photography, rectangular product imagery, small factual badges, functional filter chips, right-side cart drawer and product quick-view dialog.
 
 ## Motion
-
-- One 1.45s hero aperture sweep on first load.
-- Slow image-scale response to scrolling and short transform-only hover cues.
-- Native dialog transition for product details.
-- All ambient and spatial motion collapses under `prefers-reduced-motion`.
+Short transform/opacity transitions only: manual hero change, drawer movement, image hover and toast feedback. No auto-rotating carousel. All movement collapses under `prefers-reduced-motion`.
