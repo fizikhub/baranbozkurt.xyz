@@ -1,0 +1,2 @@
+import{t as e}from"./rolldown-runtime.BvHXOKAc.mjs";function t(e,t){return{description:`Baran Bozkurt — Web Geliştirici: AI destekli ürün geliştirme, SEO/GEO ve UX/UI odaklı kurumsal web deneyimleri. İstanbul.`,favicon:`https://framerusercontent.com/assets/potqc1e78ykFKgIWmc4xIvb50.png`,robots:`max-image-preview:large`,socialImage:`https://framerusercontent.com/assets/rD6rBlswWHwt3kseTKnf98TFUQ8.png`,title:`Baran Bozkurt • Web Geliştirici`}}var n=e((()=>{}));export{t as n,n as t};
+//# sourceMappingURL=shared-lib.CFiS14AF.mjs.map
