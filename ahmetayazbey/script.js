@@ -13,20 +13,25 @@ const money = value => new Intl.NumberFormat("tr-TR", { style: "currency", curre
 const productById = id => products.find(product => product.id === id);
 const grid = document.querySelector("[data-product-grid]");
 const resultStatus = document.querySelector("[data-result-status]");
-const cartCount = document.querySelector("[data-cart-count]");
+const cartCounts = document.querySelectorAll("[data-cart-count]");
+const favoriteCounts = document.querySelectorAll("[data-favorite-count]");
 const cartItems = document.querySelector("[data-cart-items]");
 const cartTotal = document.querySelector("[data-cart-total]");
 const cartSummary = document.querySelector("[data-cart-summary]");
 const toast = document.querySelector("[data-toast]");
 const quickview = document.querySelector("[data-quickview-dialog]");
+const checkout = document.querySelector("[data-checkout-dialog]");
 let activeCategory = "Tümü";
 let searchQuery = "";
 let sortMode = "featured";
+let showFavorites = false;
 let activeSlide = 0;
 let quickviewId = null;
 let toastTimer;
 let cart = {};
+let favorites = new Set();
 try { cart = JSON.parse(localStorage.getItem("ahmet-cart") || "{}"); } catch { localStorage.removeItem("ahmet-cart"); }
+try { favorites = new Set(JSON.parse(localStorage.getItem("ahmet-favorites") || "[]")); } catch { localStorage.removeItem("ahmet-favorites"); }
 
 function showToast(message) {
   toast.textContent = message;
@@ -40,7 +45,8 @@ function getFilteredProducts() {
   const list = products.filter(product => {
     const inCategory = activeCategory === "Tümü" || product.category === activeCategory;
     const inSearch = !query || `${product.title} ${product.category}`.toLocaleLowerCase("tr-TR").includes(query);
-    return inCategory && inSearch;
+    const inFavorites = !showFavorites || favorites.has(product.id);
+    return inCategory && inSearch && inFavorites;
   });
   if (sortMode === "price-asc") return list.sort((a, b) => a.price - b.price);
   if (sortMode === "price-desc") return list.sort((a, b) => b.price - a.price);
@@ -49,14 +55,16 @@ function getFilteredProducts() {
 
 function renderProducts() {
   const items = getFilteredProducts();
-  resultStatus.textContent = searchQuery || activeCategory !== "Tümü" ? `${items.length} ürün gösteriliyor` : "";
+  resultStatus.textContent = showFavorites ? `${items.length} favori ürün gösteriliyor` : searchQuery || activeCategory !== "Tümü" ? `${items.length} ürün gösteriliyor` : "";
   if (!items.length) {
-    grid.innerHTML = `<div class="empty-products"><i class="ph ph-magnifying-glass"></i><strong>Aradığınız ürünü bulamadık</strong><span>Başka bir model veya kategori deneyin.</span></div>`;
+    grid.innerHTML = showFavorites
+      ? `<div class="empty-products"><i class="ph ph-heart"></i><strong>Favori listeniz henüz boş</strong><span>Beğendiğiniz ürünlerdeki kalp simgesine dokunun.</span></div>`
+      : `<div class="empty-products"><i class="ph ph-magnifying-glass"></i><strong>Aradığınız ürünü bulamadık</strong><span>Başka bir model veya kategori deneyin.</span></div>`;
     return;
   }
   grid.innerHTML = items.map(product => `
     <article class="product-card">
-      <button class="favorite-button" type="button" aria-label="${product.title} ürününü favorilere ekle" data-favorite><i class="ph ph-heart"></i></button>
+      <button class="favorite-button${favorites.has(product.id) ? " is-active" : ""}" type="button" aria-label="${product.title} ürününü favorilere ${favorites.has(product.id) ? "çıkar" : "ekle"}" aria-pressed="${favorites.has(product.id)}" data-favorite="${product.id}"><i class="${favorites.has(product.id) ? "ph-fill" : "ph"} ph-heart"></i></button>
       <button class="product-visual" type="button" aria-label="${product.title} detaylarını aç" data-quickview="${product.id}">
         <img src="${product.image}" alt="${product.title}" width="1179" height="900" loading="lazy">
         <span class="product-badge">${product.badge}</span>
@@ -65,6 +73,7 @@ function renderProducts() {
         <span class="product-category">${product.category}</span>
         <h3>${product.title}</h3>
         <div class="product-price"><strong>${money(product.price)}</strong><small>Demo satış fiyatı</small></div>
+        <p class="product-meta"><i class="ph ph-check-circle"></i> Siparişe özel hazırlanır</p>
         <button class="add-button" type="button" data-add="${product.id}">Sepete ekle</button>
       </div>
     </article>`).join("");
@@ -85,7 +94,7 @@ function renderCart() {
   const entries = Object.entries(cart).filter(([id, quantity]) => productById(id) && quantity > 0);
   const totalQuantity = entries.reduce((sum, [, quantity]) => sum + quantity, 0);
   const total = entries.reduce((sum, [id, quantity]) => sum + productById(id).price * quantity, 0);
-  cartCount.textContent = totalQuantity;
+  cartCounts.forEach(count => { count.textContent = totalQuantity; });
   cartTotal.textContent = money(total);
   cartSummary.querySelector("button").disabled = !entries.length;
   if (!entries.length) {
@@ -104,6 +113,23 @@ function renderCart() {
   }).join("");
 }
 
+function saveFavorites() {
+  localStorage.setItem("ahmet-favorites", JSON.stringify([...favorites]));
+  favoriteCounts.forEach(count => { count.textContent = favorites.size; });
+  renderProducts();
+}
+
+function showFavoriteProducts() {
+  showFavorites = true;
+  activeCategory = "Tümü";
+  searchQuery = "";
+  document.querySelectorAll("[data-search-input]").forEach(input => { input.value = ""; });
+  syncFilterChips();
+  renderProducts();
+  closeDrawers();
+  document.querySelector("#products").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+}
+
 function openDrawer(drawer) {
   closeDrawers();
   drawer.classList.add("is-open");
@@ -120,12 +146,52 @@ function closeDrawers() {
 
 function selectCategory(category) {
   activeCategory = category;
+  showFavorites = false;
   searchQuery = "";
   document.querySelectorAll("[data-search-input]").forEach(input => { input.value = ""; });
   document.querySelectorAll(".filter-chips [data-category]").forEach(button => button.classList.toggle("is-active", button.dataset.category === category));
   renderProducts();
   closeDrawers();
   document.querySelector("#products").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+}
+
+function getOrderSummary() {
+  const entries = Object.entries(cart).filter(([id, quantity]) => productById(id) && quantity > 0);
+  const total = entries.reduce((sum, [id, quantity]) => sum + productById(id).price * quantity, 0);
+  return { entries, total };
+}
+
+function renderCheckoutOrder() {
+  const { entries, total } = getOrderSummary();
+  checkout.querySelector("[data-checkout-order]").innerHTML = entries.map(([id, quantity]) => `<div><span>${quantity} × ${productById(id).title}</span><strong>${money(productById(id).price * quantity)}</strong></div>`).join("") + `<div><span>Demo ara toplam</span><strong>${money(total)}</strong></div>`;
+}
+
+function openCheckout() {
+  if (!getOrderSummary().entries.length) return;
+  closeDrawers();
+  renderCheckoutOrder();
+  checkout.querySelector("[data-checkout-form]").hidden = false;
+  checkout.querySelector("[data-checkout-success]").hidden = true;
+  checkout.showModal();
+}
+
+function buildOrderText(form) {
+  const values = new FormData(form);
+  const { entries, total } = getOrderSummary();
+  const lines = entries.map(([id, quantity]) => `• ${quantity} × ${productById(id).title} — ${money(productById(id).price * quantity)}`);
+  return `Ahmet Ayazbey sipariş talebi\n\n${lines.join("\n")}\n\nDemo ara toplam: ${money(total)}\nAd Soyad: ${values.get("name")}\nTelefon: ${values.get("phone")}\nTeslimat şehri: ${values.get("city")}\nNot: ${values.get("note") || "—"}`;
+}
+
+async function copyOrder(text) {
+  try { await navigator.clipboard.writeText(text); }
+  catch {
+    const area = document.createElement("textarea");
+    area.value = text;
+    document.body.append(area);
+    area.select();
+    document.execCommand("copy");
+    area.remove();
+  }
 }
 
 function syncFilterChips() {
@@ -163,9 +229,12 @@ document.addEventListener("click", event => {
   if (add) addToCart(add.dataset.add);
   if (view) openQuickview(view.dataset.quickview);
   if (favorite) {
-    favorite.classList.toggle("is-active");
-    favorite.querySelector("i").className = favorite.classList.contains("is-active") ? "ph-fill ph-heart" : "ph ph-heart";
+    const id = favorite.dataset.favorite;
+    favorites.has(id) ? favorites.delete(id) : favorites.add(id);
+    saveFavorites();
+    showToast(favorites.has(id) ? "Favorilere eklendi" : "Favorilerden çıkarıldı");
   }
+  if (event.target.closest("[data-show-favorites]")) showFavoriteProducts();
   if (event.target.closest("[data-open-menu]")) openDrawer(document.querySelector("[data-menu-drawer]"));
   if (event.target.closest("[data-open-cart]")) openDrawer(document.querySelector("[data-cart-drawer]"));
   if (event.target.closest("[data-close-drawers]") || event.target.matches("[data-overlay]")) closeDrawers();
@@ -183,15 +252,29 @@ document.addEventListener("click", event => {
 });
 
 document.querySelectorAll(".search-form").forEach(form => {
-  form.addEventListener("submit", event => { event.preventDefault(); searchQuery = form.querySelector("input").value; activeCategory = "Tümü"; renderProducts(); document.querySelector("#products").scrollIntoView({ behavior: "smooth" }); });
+  form.addEventListener("submit", event => { event.preventDefault(); searchQuery = form.querySelector("input").value; activeCategory = "Tümü"; showFavorites = false; renderProducts(); document.querySelector("#products").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); });
 });
-document.querySelectorAll("[data-search-input]").forEach(input => input.addEventListener("input", () => { searchQuery = input.value; activeCategory = "Tümü"; syncFilterChips(); renderProducts(); }));
+document.querySelectorAll("[data-search-input]").forEach(input => input.addEventListener("input", () => { searchQuery = input.value; activeCategory = "Tümü"; showFavorites = false; syncFilterChips(); renderProducts(); }));
 document.querySelector("[data-sort]").addEventListener("change", event => { sortMode = event.target.value; renderProducts(); });
 document.querySelector("[data-close-quickview]").addEventListener("click", () => quickview.close());
 quickview.querySelector("[data-quickview-add]").addEventListener("click", () => { addToCart(quickviewId); quickview.close(); openDrawer(document.querySelector("[data-cart-drawer]")); });
 quickview.addEventListener("click", event => { if (event.target === quickview) quickview.close(); });
-document.querySelector("[data-create-order]").addEventListener("click", () => showToast("Demo sipariş özeti hazırlandı"));
+document.querySelector("[data-create-order]").addEventListener("click", openCheckout);
+document.querySelector("[data-close-checkout]").addEventListener("click", () => checkout.close());
+checkout.addEventListener("click", event => { if (event.target === checkout) checkout.close(); });
+checkout.querySelector("[data-checkout-form]").addEventListener("submit", async event => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const orderText = buildOrderText(form);
+  checkout.dataset.orderText = orderText;
+  await copyOrder(orderText);
+  form.hidden = true;
+  checkout.querySelector("[data-checkout-success]").hidden = false;
+  showToast("Sipariş özeti kopyalandı");
+});
+checkout.querySelector("[data-copy-order]").addEventListener("click", async () => { await copyOrder(checkout.dataset.orderText || ""); showToast("Sipariş özeti yeniden kopyalandı"); });
 document.addEventListener("keydown", event => { if (event.key === "Escape") closeDrawers(); });
 
 renderProducts();
 renderCart();
+favoriteCounts.forEach(count => { count.textContent = favorites.size; });

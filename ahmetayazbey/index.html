@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#11100f">
   <meta name="description" content="Ahmet Ayazbey masa, sandalye, yemek takımı ve yaşam alanı mobilyaları. Modelleri inceleyin, teklif sepetinizi oluşturun.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Ahmet Ayazbey — Masa & Sandalye">
@@ -16,11 +16,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
   <a class="skip-link" href="#products">Ürünlere geç</a>
-  <div class="announcement"><span>İstanbul, Kocaeli ve İzmir'e ücretsiz teslimat</span><a href="#delivery">Detaylar</a></div>
+  <div class="announcement"><span><i class="ph ph-truck" aria-hidden="true"></i> 3 şehre ücretsiz teslimat</span><a href="#delivery">Teslimat bilgisi</a></div>
 
   <header class="store-header">
     <div class="header-main shell">
@@ -29,6 +29,7 @@
       <form class="desktop-search search-form" role="search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input type="search" placeholder="Masa, sandalye veya model ara" aria-label="Ürün ara" data-search-input><button type="submit">Ara</button></form>
       <div class="header-actions">
         <button class="icon-button search-trigger" type="button" aria-label="Aramaya git" data-search-trigger><i class="ph ph-magnifying-glass"></i></button>
+        <button class="icon-button favorite-link" type="button" aria-label="Favorileri göster" data-show-favorites><i class="ph ph-heart"></i><span data-favorite-count>0</span></button>
         <a class="icon-button account-link" href="https://www.instagram.com/ahmetayazbey/" target="_blank" rel="noopener" aria-label="Instagram hesabı"><i class="ph ph-instagram-logo"></i></a>
         <button class="cart-button" type="button" aria-label="Teklif sepetini aç" data-open-cart><i class="ph ph-shopping-bag"></i><span data-cart-count>0</span></button>
       </div>
@@ -60,10 +61,16 @@
     </section>
 
     <section class="products shell" id="products" aria-labelledby="products-title">
-      <div class="section-top"><div><p>Ahmet Ayazbey koleksiyonu</p><h2 id="products-title">Yeni ürünler</h2></div><label class="sort-label">Sırala<select data-sort><option value="featured">Önerilen</option><option value="price-asc">Fiyat: Artan</option><option value="price-desc">Fiyat: Azalan</option></select></label></div>
+      <div class="section-top"><div><p>Ahmet Ayazbey koleksiyonu</p><h2 id="products-title">Eviniz için seçtiklerimiz</h2></div><label class="sort-label">Sırala<select data-sort><option value="featured">Önerilen</option><option value="price-asc">Fiyat: Artan</option><option value="price-desc">Fiyat: Azalan</option></select></label></div>
       <div class="filter-chips" aria-label="Ürün filtresi"><button class="is-active" type="button" data-category="Tümü">Tümü</button><button type="button" data-category="Yemek Takımları">Yemek Takımları</button><button type="button" data-category="Masalar">Masalar</button><button type="button" data-category="Sandalyeler">Sandalyeler</button><button type="button" data-category="Koltuklar">Koltuklar</button></div>
       <p class="result-status" role="status" data-result-status></p><div class="product-grid" data-product-grid></div>
       <p class="demo-note">Gösterilen fiyatlar demo amaçlıdır; yayına alınmadan önce güncel satış fiyatlarıyla değiştirilecektir.</p>
+    </section>
+
+    <section class="purchase-confidence shell" aria-label="Güvenli alışveriş bilgileri">
+      <div><i class="ph ph-credit-card" aria-hidden="true"></i><span><strong>Güvenli sipariş</strong>Ödeme ve üretim ayrıntıları onayınızla kesinleşir.</span></div>
+      <div><i class="ph ph-chats-circle" aria-hidden="true"></i><span><strong>Gerçek bir uzmanla görüşün</strong>Renk, ölçü ve kumaş seçimini birlikte tamamlayın.</span></div>
+      <div><i class="ph ph-package" aria-hidden="true"></i><span><strong>Planlı teslimat</strong>Hazırlık ve teslim tarihi sipariş öncesinde paylaşılır.</span></div>
     </section>
 
     <section class="shop-categories shell" aria-labelledby="category-title">
@@ -77,11 +84,30 @@
   <footer class="footer"><div class="shell footer-grid"><div class="footer-brand"><img src="assets/brand/wordmark.png" width="640" height="174" alt="Ahmet Ayazbey masa sandalye"><p>İyi malzeme, dengeli form ve evinize göre tamamlanan mobilyalar.</p></div><div><strong>Mağaza</strong><a href="#products">Yeni ürünler</a><a href="#products">Yemek takımları</a><a href="#products">Sandalyeler</a></div><div><strong>Destek</strong><a href="#delivery">Teslimat</a><a href="#delivery">Garanti</a><a href="https://www.instagram.com/ahmetayazbey/" target="_blank" rel="noopener">İletişim</a></div></div><div class="shell footer-bottom"><span>© 2026 Ahmet Ayazbey</span><span>İstanbul · Türkiye</span></div></footer>
 
   <div class="page-overlay" data-overlay></div>
-  <aside class="drawer menu-drawer" aria-hidden="true" aria-label="Mobil menü" data-menu-drawer><div class="drawer-head"><strong>Menü</strong><button type="button" aria-label="Menüyü kapat" data-close-drawers><i class="ph ph-x"></i></button></div><nav><button type="button" data-category="Yemek Takımları">Yemek Takımları <i class="ph ph-caret-right"></i></button><button type="button" data-category="Masalar">Masalar <i class="ph ph-caret-right"></i></button><button type="button" data-category="Sandalyeler">Sandalyeler <i class="ph ph-caret-right"></i></button><button type="button" data-category="Koltuklar">Koltuklar <i class="ph ph-caret-right"></i></button><a href="#delivery">Teslimat & Garanti <i class="ph ph-caret-right"></i></a></nav><a class="drawer-instagram" href="https://www.instagram.com/ahmetayazbey/" target="_blank" rel="noopener"><i class="ph ph-instagram-logo"></i> @ahmetayazbey</a></aside>
+  <aside class="drawer menu-drawer" aria-hidden="true" aria-label="Mobil menü" data-menu-drawer><div class="drawer-head"><strong>Menü</strong><button type="button" aria-label="Menüyü kapat" data-close-drawers><i class="ph ph-x"></i></button></div><nav><button type="button" data-category="Yemek Takımları">Yemek Takımları <i class="ph ph-caret-right"></i></button><button type="button" data-category="Masalar">Masalar <i class="ph ph-caret-right"></i></button><button type="button" data-category="Sandalyeler">Sandalyeler <i class="ph ph-caret-right"></i></button><button type="button" data-category="Koltuklar">Koltuklar <i class="ph ph-caret-right"></i></button><button type="button" data-show-favorites>Favorilerim <i class="ph ph-heart"></i></button><a href="#delivery">Teslimat & Garanti <i class="ph ph-caret-right"></i></a></nav><a class="drawer-instagram" href="https://www.instagram.com/ahmetayazbey/" target="_blank" rel="noopener"><i class="ph ph-instagram-logo"></i> @ahmetayazbey</a></aside>
   <aside class="drawer cart-drawer" aria-hidden="true" aria-label="Teklif sepeti" data-cart-drawer><div class="drawer-head"><strong>Teklif sepeti</strong><button type="button" aria-label="Sepeti kapat" data-close-drawers><i class="ph ph-x"></i></button></div><div class="cart-progress"><div><span>Ücretsiz teslimat bölgesindesiniz</span><i class="ph ph-truck"></i></div><b></b></div><div class="cart-items" data-cart-items></div><div class="cart-summary" data-cart-summary><div><span>Ara toplam</span><strong data-cart-total>₺0</strong></div><small>Nakliye ve özel üretim ayrıntıları sipariş öncesinde netleştirilir.</small><button type="button" data-create-order>Sipariş talebi oluştur</button></div></aside>
 
   <dialog class="quickview" data-quickview-dialog><button class="quickview-close" type="button" aria-label="Ürün detayını kapat" data-close-quickview><i class="ph ph-x"></i></button><div class="quickview-image"><img src="assets/products/gazel.jpg" alt="Gazel Traverten Yemek Takımı" data-quickview-image></div><div class="quickview-info"><p data-quickview-category></p><h2 data-quickview-title></h2><div class="quickview-price" data-quickview-price></div><p class="quickview-description" data-quickview-description></p><ul data-quickview-features></ul><button type="button" data-quickview-add><i class="ph ph-shopping-bag"></i> Teklif sepetine ekle</button></div></dialog>
+
+  <dialog class="checkout" data-checkout-dialog>
+    <button class="checkout-close" type="button" aria-label="Sipariş formunu kapat" data-close-checkout><i class="ph ph-x"></i></button>
+    <div class="checkout-intro"><span>Sipariş talebi</span><h2>Seçimlerinizi birlikte netleştirelim.</h2><p>Bilgilerinizi ekleyin; ürün, ölçü ve teslimat ayrıntılarını sizinle görüşerek onaylayalım.</p><div class="checkout-order" data-checkout-order></div></div>
+    <form class="checkout-form" data-checkout-form>
+      <div class="checkout-fields">
+        <label class="checkout-field"><span>Adınız soyadınız</span><input name="name" autocomplete="name" required placeholder="Ad Soyad"></label>
+        <label class="checkout-field"><span>Telefon</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="05xx xxx xx xx"></label>
+        <label class="checkout-field"><span>Teslimat şehri</span><select name="city" required><option value="">Şehir seçin</option><option>İstanbul</option><option>Kocaeli</option><option>İzmir</option><option>Diğer</option></select></label>
+        <label class="checkout-field field-full"><span>Sipariş notunuz</span><textarea name="note" rows="3" placeholder="Ölçü, renk, kumaş veya teslimat notu"></textarea></label>
+      </div>
+      <label class="checkout-privacy"><input type="checkbox" required> <span>Bu bilgilerin sipariş talebime dönüş yapılması amacıyla kullanılmasını kabul ediyorum.</span></label>
+      <button class="checkout-submit" type="submit">Sipariş özetini hazırla <i class="ph ph-arrow-right"></i></button>
+      <p class="checkout-help">Bu adım ödeme almaz. Son fiyat ve üretim detayları sizin onayınızdan sonra kesinleşir.</p>
+    </form>
+    <div class="checkout-success" data-checkout-success hidden><i class="ph ph-check-circle"></i><h2>Özetiniz hazır.</h2><p>Sipariş metnini kopyaladık. Instagram mesajına yapıştırarak talebinizi hemen iletebilirsiniz.</p><a href="https://www.instagram.com/ahmetayazbey/" target="_blank" rel="noopener">Instagram'da tamamla <i class="ph ph-arrow-up-right"></i></a><button type="button" data-copy-order>Özeti yeniden kopyala</button></div>
+  </dialog>
+
+  <nav class="mobile-dock" aria-label="Hızlı mağaza menüsü"><a href="#top"><i class="ph ph-house"></i><span>Mağaza</span></a><a href="#products"><i class="ph ph-grid-four"></i><span>Ürünler</span></a><button type="button" data-show-favorites><i class="ph ph-heart"></i><span>Favoriler</span><b data-favorite-count>0</b></button><button type="button" data-open-cart><i class="ph ph-shopping-bag"></i><span>Sepet</span><b data-cart-count>0</b></button></nav>
   <div class="toast" role="status" aria-live="polite" data-toast></div>
-  <script src="script.js" defer></script>
+  <script src="script.js?v=3" defer></script>
 </body>
 </html>
