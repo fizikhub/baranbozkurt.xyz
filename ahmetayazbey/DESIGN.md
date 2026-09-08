@@ -19,7 +19,7 @@ Manrope is the single commerce family. Its compact forms support Turkish text, p
 The mobile storefront follows a practical vertical rhythm: promotion → sticky header → search → category circles → campaign hero → service benefits → two-column product grid → room categories → custom order. Desktop expands to a four-column product grid and split campaign composition.
 
 ## Components
-Square-cornered search and actions, circular category photography, rectangular product imagery, small factual badges, functional filter chips, persistent favorites, right-side cart drawer, product quick-view dialog, mobile commerce dock and a two-step order-request checkout.
+Soft 12–18px corner geometry for search, imagery and action surfaces; circular category photography; pill filters and factual badges; persistent favorites; right-side cart drawer; product quick-view dialog; mobile commerce dock and a two-step order-request checkout. Product cards lead to a dedicated product-detail route with immersive photography, finish selection, quantity controls, specifications and related products.
 
 ## Motion
 Short transform/opacity transitions only: manual hero change, drawer movement, image hover and toast feedback. No auto-rotating carousel. All movement collapses under `prefers-reduced-motion`.

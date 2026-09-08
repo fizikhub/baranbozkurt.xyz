@@ -65,13 +65,14 @@ function renderProducts() {
   grid.innerHTML = items.map(product => `
     <article class="product-card">
       <button class="favorite-button${favorites.has(product.id) ? " is-active" : ""}" type="button" aria-label="${product.title} ürününü favorilere ${favorites.has(product.id) ? "çıkar" : "ekle"}" aria-pressed="${favorites.has(product.id)}" data-favorite="${product.id}"><i class="${favorites.has(product.id) ? "ph-fill" : "ph"} ph-heart"></i></button>
-      <button class="product-visual" type="button" aria-label="${product.title} detaylarını aç" data-quickview="${product.id}">
+      <a class="product-visual" href="urun/?id=${product.id}" aria-label="${product.title} ürün sayfasına git">
         <img src="${product.image}" alt="${product.title}" width="1179" height="900" loading="lazy">
         <span class="product-badge">${product.badge}</span>
-      </button>
+      </a>
+      <button class="quick-look" type="button" aria-label="${product.title} ürününü hızlı incele" data-quickview="${product.id}"><i class="ph ph-eye"></i></button>
       <div class="product-copy">
         <span class="product-category">${product.category}</span>
-        <h3>${product.title}</h3>
+        <h3><a href="urun/?id=${product.id}">${product.title}</a></h3>
         <div class="product-price"><strong>${money(product.price)}</strong><small>Demo satış fiyatı</small></div>
         <p class="product-meta"><i class="ph ph-check-circle"></i> Siparişe özel hazırlanır</p>
         <button class="add-button" type="button" data-add="${product.id}">Sepete ekle</button>
@@ -278,3 +279,4 @@ document.addEventListener("keydown", event => { if (event.key === "Escape") clos
 renderProducts();
 renderCart();
 favoriteCounts.forEach(count => { count.textContent = favorites.size; });
+if (new URLSearchParams(location.search).get("cart") === "open") openDrawer(document.querySelector("[data-cart-drawer]"));
