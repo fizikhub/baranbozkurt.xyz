@@ -1,0 +1,697 @@
+/* ==========================================================================
+   BARAN BOZKURT — PORTFOLIO DESIGN SYSTEM
+   Modern, Clean, Handcrafted HTML5 & CSS3
+   ========================================================================== */
+
+:root {
+  /* Colors */
+  --bg: #212121;
+  --bg-dark: #191919;
+  --bg-card: #272727;
+  --paper: #f2e3cf;
+  --paper-cream: #f7eee1;
+  --paper-postit: #f5dfa8;
+  --ink-dark: #1b1917;
+  --ink-red: #e35342;
+  --ink-red-dark: #cc3f2f;
+  --ink-blue: #2754a9;
+  --ink-yellow: #edbe24;
+  --accent-green: #29513e;
+  --border-light: rgba(242, 227, 207, 0.15);
+
+  /* Typography */
+  --font-hand: 'Gochi Hand', cursive, sans-serif;
+  --font-serif: 'Averia Serif Libre', Georgia, serif;
+  --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Layout */
+  --side-strip-width: 56px;
+  --max-content-width: 1060px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+}
+
+/* Base Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg);
+  color: var(--paper);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: var(--bg);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Noise Texture Overlay */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url('assets/images/noise.png');
+  background-repeat: repeat;
+  background-size: 153px;
+  opacity: 0.08;
+}
+
+/* ==========================================================================
+   STAMP STRIPS (LEFT & RIGHT)
+   ========================================================================== */
+.stamp-strip {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--side-strip-width);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  z-index: 10;
+  pointer-events: none;
+  overflow: hidden;
+  padding-top: 10px;
+}
+
+.stamp-strip-left {
+  left: 0;
+}
+
+.stamp-strip-right {
+  right: 0;
+}
+
+.stamp-item {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.stamp-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ==========================================================================
+   PAGE WRAPPER & HEADER
+   ========================================================================== */
+.site-wrapper {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 30px 24px 80px;
+  position: relative;
+  z-index: 20;
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 36px;
+  padding: 0 8px;
+}
+
+.brand-smile {
+  font-family: var(--font-hand);
+  font-size: 2.2rem;
+  color: var(--paper);
+  text-decoration: none;
+  transition: transform 0.2s ease, color 0.2s ease;
+  line-height: 1;
+}
+
+.brand-smile:hover {
+  transform: rotate(15deg) scale(1.15);
+  color: var(--ink-red);
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav-link {
+  font-family: var(--font-hand);
+  font-size: 1.45rem;
+  color: var(--paper);
+  text-decoration: none;
+  position: relative;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--ink-red);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   HERO SECTION: NOTEBOOK
+   ========================================================================== */
+.hero-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 90px;
+  position: relative;
+}
+
+/* Desktop Open Book */
+.notebook-desktop {
+  width: 100%;
+  max-width: 980px;
+  aspect-ratio: 3367 / 2246;
+  background-image: url('assets/images/desktop-book-bg.jpg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 7% 8% 8% 8%;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.6));
+}
+
+/* Left Page */
+.page-left {
+  padding: 4% 8% 4% 4%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  color: var(--ink-dark);
+}
+
+.handwritten-signature {
+  font-family: var(--font-hand);
+  font-size: 3.4rem;
+  color: var(--ink-red);
+  line-height: 1;
+  margin-bottom: 8px;
+  transform: rotate(-3deg);
+  display: inline-block;
+}
+
+.role-badge {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: var(--ink-red);
+  margin-bottom: 12px;
+  letter-spacing: 0.02em;
+}
+
+.hero-quote {
+  font-family: var(--font-serif);
+  font-size: 2.3rem;
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--ink-red);
+  margin-bottom: 14px;
+}
+
+.hero-quote em {
+  font-family: var(--font-hand);
+  font-style: normal;
+  font-size: 2.5rem;
+  display: block;
+}
+
+.location-badge {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--ink-red);
+  opacity: 0.85;
+  margin-bottom: auto;
+}
+
+.left-page-illustration {
+  margin-top: auto;
+  width: 88%;
+  align-self: center;
+  pointer-events: none;
+}
+
+.left-page-illustration img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Right Page */
+.page-right {
+  padding: 4% 4% 4% 8%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  color: var(--ink-dark);
+}
+
+.sticky-note {
+  background-color: var(--paper-cream);
+  border: 1px solid var(--border-paper);
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  transform: rotate(2deg);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  margin-bottom: 24px;
+  width: fit-content;
+  position: relative;
+}
+
+.sticky-tape {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 24px;
+  background-image: url('assets/images/tape.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.85;
+}
+
+.sticky-text {
+  font-family: var(--font-hand);
+  font-size: 1.6rem;
+  color: var(--ink-dark);
+  line-height: 1.2;
+}
+
+.beliefs-block {
+  margin-top: 10px;
+}
+
+.beliefs-title {
+  font-family: var(--font-hand);
+  font-size: 1.45rem;
+  color: var(--ink-dark);
+  margin-bottom: 16px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.belief-item {
+  margin-bottom: 14px;
+}
+
+.belief-number {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--ink-red);
+  font-weight: 700;
+  margin-right: 6px;
+}
+
+.belief-text {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.4;
+}
+
+/* Desktop Doodles on Notebook */
+.doodle {
+  position: absolute;
+  pointer-events: none;
+  transition: transform 0.3s ease;
+}
+
+.doodle-juicebox {
+  width: 58px;
+  bottom: 8%;
+  left: -28px;
+  transform: rotate(-10deg);
+}
+
+.doodle-godzilla {
+  width: 68px;
+  bottom: 12%;
+  right: -32px;
+  transform: rotate(8deg);
+}
+
+.doodle-noodle {
+  width: 62px;
+  top: 10%;
+  right: -24px;
+  transform: rotate(-6deg);
+}
+
+/* Mobile Notebook (Hidden on Desktop) */
+.notebook-mobile {
+  display: none;
+}
+
+/* ==========================================================================
+   WORK & CASE STUDIES SECTION (CUTTING MAT)
+   ========================================================================== */
+.work-section {
+  margin-bottom: 90px;
+}
+
+.section-header {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-family: var(--font-hand);
+  font-size: 2.2rem;
+  color: var(--paper);
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: rgba(242, 227, 207, 0.7);
+}
+
+.cutting-mat {
+  background-color: var(--accent-green);
+  background-image: url('assets/images/cut-mat-grid.png');
+  background-repeat: repeat;
+  background-size: 150px;
+  border: 8px solid #243f33;
+  border-radius: var(--radius-lg);
+  padding: 36px 30px;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.5), 0 16px 36px rgba(0, 0, 0, 0.4);
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+.project-card {
+  background-color: var(--paper-cream);
+  border-radius: var(--radius-md);
+  padding: 18px 18px 24px;
+  color: var(--ink-dark);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  overflow: hidden;
+}
+
+.project-card:hover {
+  transform: translateY(-6px) rotate(1deg);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45);
+}
+
+.project-thumbnail {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: 16px;
+  background-color: #e0d0bc;
+}
+
+.project-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.project-card:hover .project-thumbnail img {
+  transform: scale(1.04);
+}
+
+.project-tag {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-red);
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.project-title {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  color: var(--ink-dark);
+  margin-bottom: 8px;
+  line-height: 1.25;
+}
+
+.project-desc {
+  font-size: 0.92rem;
+  color: #555;
+  line-height: 1.45;
+  margin-bottom: 14px;
+}
+
+.project-link-hint {
+  margin-top: auto;
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  color: var(--ink-red);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ==========================================================================
+   VALUES & ABOUT SECTION
+   ========================================================================== */
+.values-section {
+  margin-bottom: 90px;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.value-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 28px 24px;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-4px);
+}
+
+.value-card-num {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--ink-yellow);
+  margin-bottom: 12px;
+}
+
+.value-card-title {
+  font-family: var(--font-hand);
+  font-size: 1.7rem;
+  color: var(--paper);
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.value-card-text {
+  font-size: 0.95rem;
+  color: rgba(242, 227, 207, 0.75);
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   ABOUT PREVIEW BANNER
+   ========================================================================== */
+.about-banner {
+  background-color: var(--bg-card);
+  border: 1px dashed var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 40px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 90px;
+}
+
+.about-banner-content h3 {
+  font-family: var(--font-hand);
+  font-size: 2.2rem;
+  color: var(--paper);
+  margin-bottom: 10px;
+}
+
+.about-banner-content p {
+  font-size: 1.05rem;
+  color: rgba(242, 227, 207, 0.8);
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+.btn-about {
+  font-family: var(--font-hand);
+  font-size: 1.4rem;
+  color: var(--bg-dark);
+  background-color: var(--paper);
+  padding: 12px 28px;
+  border-radius: 999px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-about:hover {
+  background-color: var(--ink-red);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.site-footer {
+  border-top: 1px solid var(--border-light);
+  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.footer-title {
+  font-family: var(--font-hand);
+  font-size: 2.8rem;
+  color: var(--ink-red);
+  margin-bottom: 8px;
+}
+
+.footer-subtitle {
+  font-size: 1.1rem;
+  color: rgba(242, 227, 207, 0.8);
+  margin-bottom: 28px;
+}
+
+.social-links {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.social-link {
+  font-family: var(--font-hand);
+  font-size: 1.5rem;
+  color: var(--paper);
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+  transition: all 0.2s ease;
+}
+
+.social-link:hover {
+  color: var(--ink-red);
+  border-color: var(--ink-red);
+  transform: translateY(-3px) rotate(-1deg);
+}
+
+.footer-cat {
+  width: 90px;
+  height: auto;
+  margin-bottom: 16px;
+}
+
+.footer-copy {
+  font-size: 0.85rem;
+  color: rgba(242, 227, 207, 0.5);
+  font-family: var(--font-mono);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (MOBILE & TABLET)
+   ========================================================================== */
+@media (max-width: 920px) {
+  .stamp-strip {
+    display: none !important;
+  }
+
+  .site-wrapper {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+@media (max-width: 809.98px) {
+  /* Switch Desktop Notebook to Baran's Mobile Notebook */
+  .notebook-desktop {
+    display: none !important;
+  }
+
+  .notebook-mobile {
+    display: block !important;
+    width: min(340px, calc(100vw - 32px)) !important;
+    max-width: calc(100vw - 32px) !important;
+    aspect-ratio: 602 / 973 !important;
+    height: auto !important;
+    margin: 0 auto !important;
+    position: relative !important;
+    background: transparent url('assets/images/baran-notebook.png') no-repeat center / contain !important;
+    filter: drop-shadow(0 14px 32px rgba(0, 0, 0, 0.55)) !important;
+    z-index: 5;
+  }
+
+  .about-banner {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .site-header {
+    margin-bottom: 24px;
+  }
+
+  .site-nav {
+    gap: 18px;
+  }
+
+  .nav-link {
+    font-size: 1.25rem;
+  }
+
+  .cutting-mat {
+    padding: 20px 16px;
+  }
+
+  .footer-title {
+    font-size: 2.2rem;
+  }
+}
