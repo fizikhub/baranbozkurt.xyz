@@ -365,6 +365,781 @@ body {
 }
 
 /* ==========================================================================
+   CV / FIELD NOTES & TORN SCRAPBOOK SCROLLYTELLING SECTION
+   ========================================================================== */
+.cv-scrapbook-section {
+  margin-bottom: 110px;
+  position: relative;
+  z-index: 25;
+}
+
+/* Header & Stamp Badge */
+.cv-section-top {
+  margin-bottom: 32px;
+}
+
+.cv-header-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.cv-linocut-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--paper-cream);
+  color: var(--ink-dark);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 12px 4px 6px;
+  border-radius: 4px;
+  box-shadow: 3px 3px 0 var(--ink-red);
+  transform: rotate(-1.5deg);
+}
+
+.cv-badge-stamp-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.cv-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: rgba(242, 227, 207, 0.85);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-light);
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #38bdf8;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #38bdf8;
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.6; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.cv-section-heading {
+  font-family: var(--font-hand);
+  font-size: 2.6rem;
+  color: var(--paper);
+  line-height: 1.15;
+  margin-bottom: 18px;
+}
+
+.cv-heading-sub {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: rgba(242, 227, 207, 0.7);
+  margin-top: 4px;
+}
+
+/* Interactive Jump Tabs */
+.cv-scrap-tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.scrap-tab-btn {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--paper);
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px dashed rgba(242, 227, 207, 0.25);
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.scrap-tab-btn .tab-num {
+  color: var(--ink-red);
+  font-weight: 700;
+}
+
+.scrap-tab-btn:hover {
+  background-color: rgba(242, 227, 207, 0.12);
+  border-color: var(--ink-red);
+  transform: translateY(-2px);
+}
+
+.scrap-tab-btn.active {
+  background-color: var(--ink-red);
+  color: #fff;
+  border-color: var(--ink-red);
+  transform: translateY(-2px) rotate(-1deg);
+  box-shadow: 2px 3px 0 #1b1917;
+}
+
+.scrap-tab-btn.active .tab-num {
+  color: #ffffff;
+}
+
+/* Scrolly Stage & Workbench */
+.cv-stage-viewport {
+  position: relative;
+  width: 100%;
+}
+
+.cv-workbench {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* --------------------------------------------------------------------------
+   LEFT COLUMN: Stacked Torn Paper Scrap Deck
+   -------------------------------------------------------------------------- */
+.scrap-deck-column {
+  position: sticky;
+  top: 24px;
+  z-index: 10;
+}
+
+.scrap-deck-container {
+  position: relative;
+  width: 100%;
+  height: 380px;
+}
+
+/* Torn Card Styles */
+.torn-paper-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--paper-cream);
+  background-image: radial-gradient(rgba(33, 33, 33, 0.06) 1px, transparent 1px);
+  background-size: 14px 14px;
+  color: var(--ink-dark);
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 2px;
+  padding: 22px 20px 24px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.35s ease,
+              z-index 0.35s step-end;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.torn-paper-card:hover:not(.card-active) {
+  opacity: 0.95 !important;
+  transform: translateY(-4px) rotate(calc(var(--card-rot) * 1.1)) !important;
+}
+
+.torn-paper-card.card-active {
+  z-index: 10 !important;
+  transform: translate3d(0, 0, 30px) rotate(var(--card-rot)) scale(1.02) !important;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45), 0 28px 64px -10px rgba(0, 0, 0, 0.3);
+  opacity: 1 !important;
+}
+
+/* Jagged Torn Edges */
+.torn-edge-top {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background-color: inherit;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 24' preserveAspectRatio='none'%3E%3Cpath d='M0,24 L0,8 Q20,18 40,6 T80,14 Q120,4 160,16 T240,8 Q280,18 320,6 T400,14 Q450,4 500,16 T600,6 Q650,18 700,8 T800,16 Q850,6 900,14 T960,8 L1000,12 L1000,24 Z' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 24' preserveAspectRatio='none'%3E%3Cpath d='M0,24 L0,8 Q20,18 40,6 T80,14 Q120,4 160,16 T240,8 Q280,18 320,6 T400,14 Q450,4 500,16 T600,6 Q650,18 700,8 T800,16 Q850,6 900,14 T960,8 L1000,12 L1000,24 Z' fill='%23000'/%3E%3C/svg%3E");
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+  pointer-events: none;
+}
+
+.torn-edge-bottom {
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background-color: inherit;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 24' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L0,16 Q30,6 60,18 T120,8 Q160,20 200,6 T280,16 Q330,6 380,18 T460,8 Q520,20 580,6 T680,16 Q730,6 780,18 T860,8 Q920,20 960,8 L1000,14 L1000,0 Z' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 24' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L0,16 Q30,6 60,18 T120,8 Q160,20 200,6 T280,16 Q330,6 380,18 T460,8 Q520,20 580,6 T680,16 Q730,6 780,18 T860,8 Q920,20 960,8 L1000,14 L1000,0 Z' fill='%23000'/%3E%3C/svg%3E");
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+  pointer-events: none;
+}
+
+/* Washi Tape Strips */
+.tape-strip {
+  position: absolute;
+  width: 68px;
+  height: 20px;
+  background-color: rgba(246, 238, 222, 0.85);
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 4px,
+    rgba(227, 83, 66, 0.08) 4px,
+    rgba(227, 83, 66, 0.08) 8px
+  );
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  z-index: 12;
+  pointer-events: none;
+}
+
+.tape-strip-top {
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1.5deg);
+}
+
+.tape-strip-right {
+  top: -8px;
+  right: 18px;
+  transform: rotate(3.5deg);
+}
+
+.tape-strip-left {
+  top: -8px;
+  left: 18px;
+  transform: rotate(-4deg);
+}
+
+/* Card Content Details */
+.card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.card-index-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ink-red);
+  letter-spacing: 0.05em;
+}
+
+.card-linocut-mini {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  opacity: 0.85;
+}
+
+.card-title {
+  font-family: var(--font-hand);
+  font-size: 1.65rem;
+  color: var(--ink-dark);
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+
+.card-brief {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  color: #444;
+  line-height: 1.45;
+  margin-bottom: 16px;
+}
+
+.card-footer-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag-pill {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  background-color: rgba(33, 33, 33, 0.06);
+  padding: 3px 8px;
+  border-radius: 3px;
+  color: #333;
+}
+
+.scrap-deck-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  font-family: var(--font-hand);
+  font-size: 1.1rem;
+  color: rgba(242, 227, 207, 0.65);
+}
+
+.hint-hand-arrow {
+  font-size: 1.4rem;
+  color: var(--ink-red);
+}
+
+/* --------------------------------------------------------------------------
+   RIGHT COLUMN: The Field Story Paper Board
+   -------------------------------------------------------------------------- */
+.scrap-story-column {
+  width: 100%;
+}
+
+.story-board-paper {
+  background-color: #faf4e8;
+  background-image: 
+    linear-gradient(rgba(39, 84, 169, 0.04) 1px, transparent 1px),
+    radial-gradient(rgba(227, 83, 66, 0.04) 1px, transparent 1px);
+  background-size: 100% 28px, 16px 16px;
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 3px;
+  padding: 34px 34px 38px;
+  position: relative;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  color: var(--ink-dark);
+  min-height: 480px;
+}
+
+.story-torn-top {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background-color: #faf4e8;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 24' preserveAspectRatio='none'%3E%3Cpath d='M0,24 L0,8 Q20,18 40,6 T80,14 Q120,4 160,16 T240,8 Q280,18 320,6 T400,14 Q450,4 500,16 T600,6 Q650,18 700,8 T800,16 Q850,6 900,14 T960,8 L1000,12 L1000,24 Z' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 24' preserveAspectRatio='none'%3E%3Cpath d='M0,24 L0,8 Q20,18 40,6 T80,14 Q120,4 160,16 T240,8 Q280,18 320,6 T400,14 Q450,4 500,16 T600,6 Q650,18 700,8 T800,16 Q850,6 900,14 T960,8 L1000,12 L1000,24 Z' fill='%23000'/%3E%3C/svg%3E");
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+  pointer-events: none;
+}
+
+.story-torn-bottom {
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background-color: #faf4e8;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 24' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L0,16 Q30,6 60,18 T120,8 Q160,20 200,6 T280,16 Q330,6 380,18 T460,8 Q520,20 580,6 T680,16 Q730,6 780,18 T860,8 Q920,20 960,8 L1000,14 L1000,0 Z' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 24' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L0,16 Q30,6 60,18 T120,8 Q160,20 200,6 T280,16 Q330,6 380,18 T460,8 Q520,20 580,6 T680,16 Q730,6 780,18 T860,8 Q920,20 960,8 L1000,14 L1000,0 Z' fill='%23000'/%3E%3C/svg%3E");
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+  pointer-events: none;
+}
+
+.story-tape {
+  position: absolute;
+  top: -12px;
+  left: 40px;
+  width: 80px;
+  height: 24px;
+  background-color: rgba(246, 238, 222, 0.9);
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 4px,
+    rgba(227, 83, 66, 0.06) 4px,
+    rgba(227, 83, 66, 0.06) 8px
+  );
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  transform: rotate(-2deg);
+  z-index: 15;
+}
+
+/* Story Panels Transitions */
+.story-panel {
+  display: none;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.story-panel.panel-active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.story-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding-bottom: 18px;
+}
+
+.story-header-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.story-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ink-red);
+  letter-spacing: 0.06em;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.story-title {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  color: var(--ink-red);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 4px;
+}
+
+.story-subtitle {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Doodle Illustrations */
+.story-doodle-container {
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.story-doodle {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(227, 83, 66, 0.15));
+  animation: doodleFloat 4s ease-in-out infinite alternate;
+}
+
+@keyframes doodleFloat {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-4px) rotate(1.5deg); }
+}
+
+/* Story Content Elements */
+.story-lead {
+  font-size: 1.15rem;
+  line-height: 1.55;
+  color: #1b1917;
+  margin-bottom: 14px;
+}
+
+.story-paragraph {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 18px;
+}
+
+.story-quote-box {
+  background-color: rgba(227, 83, 66, 0.06);
+  border-left: 3px solid var(--ink-red);
+  padding: 14px 18px;
+  margin: 18px 0;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  position: relative;
+}
+
+.quote-mark {
+  font-family: var(--font-serif);
+  font-size: 2.4rem;
+  line-height: 1;
+  color: var(--ink-red);
+  opacity: 0.3;
+  position: absolute;
+  top: 4px;
+  left: 6px;
+}
+
+.quote-text {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: #222;
+  line-height: 1.45;
+  font-style: italic;
+  padding-left: 12px;
+}
+
+.story-meta-pills {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.meta-pill {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  background-color: rgba(33, 33, 33, 0.06);
+  padding: 6px 14px;
+  border-radius: 999px;
+  color: #222;
+  text-decoration: none;
+}
+
+.meta-pill-link {
+  font-weight: 600;
+  color: var(--ink-red);
+  border: 1px solid rgba(227, 83, 66, 0.25);
+  transition: all 0.2s ease;
+}
+
+.meta-pill-link:hover {
+  background-color: var(--ink-red);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* Education Highlight Card */
+.story-highlight-card {
+  background-color: rgba(39, 84, 169, 0.06);
+  border: 1px dashed rgba(39, 84, 169, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 18px 20px;
+  margin-bottom: 18px;
+}
+
+.highlight-badge {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ink-blue);
+  margin-bottom: 8px;
+}
+
+.highlight-title {
+  font-family: var(--font-hand);
+  font-size: 1.45rem;
+  color: var(--ink-dark);
+  margin-bottom: 6px;
+}
+
+.story-sub-points {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.sub-point-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.sub-point-num {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink-red);
+  background-color: rgba(227, 83, 66, 0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* Skills Scrap Grid */
+.skills-scrap-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.skill-scrap-item {
+  background-color: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.skill-scrap-full {
+  grid-column: span 2;
+  background-color: rgba(227, 83, 66, 0.05);
+  border-color: rgba(227, 83, 66, 0.2);
+}
+
+.skill-item-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.skill-stamp {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #fff;
+  background-color: var(--ink-dark);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.skill-scrap-item h4 {
+  font-family: var(--font-hand);
+  font-size: 1.25rem;
+  color: var(--ink-dark);
+}
+
+.skill-scrap-item p {
+  font-size: 0.88rem;
+  color: #444;
+  line-height: 1.4;
+}
+
+/* Experience Milestones */
+.experience-milestone-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.milestone-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.milestone-dot {
+  width: 10px;
+  height: 10px;
+  background-color: var(--ink-red);
+  border-radius: 50%;
+  margin-top: 6px;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(227, 83, 66, 0.2);
+}
+
+.milestone-content {
+  flex: 1;
+}
+
+.milestone-title {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink-dark);
+  margin-bottom: 4px;
+}
+
+.milestone-text {
+  font-size: 0.92rem;
+  color: #444;
+  line-height: 1.5;
+}
+
+/* Projects Cards Grid on Story 5 */
+.cv-project-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.cv-project-scrap {
+  background-color: rgba(255, 255, 255, 0.85);
+  border: 1px dashed rgba(27, 25, 23, 0.25);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  color: var(--ink-dark);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  position: relative;
+}
+
+.cv-project-scrap:hover {
+  transform: translateY(-3px) rotate(-0.5deg);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+  border-color: var(--ink-red);
+}
+
+.cv-project-scrap-full {
+  grid-column: span 2;
+}
+
+.proj-scrap-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.proj-num {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ink-red);
+}
+
+.proj-badge {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  background-color: rgba(33, 33, 33, 0.05);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: #555;
+}
+
+.proj-arrow {
+  color: var(--ink-red);
+  font-weight: bold;
+}
+
+.proj-title {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--ink-dark);
+  margin-bottom: 4px;
+}
+
+.proj-desc {
+  font-size: 0.84rem;
+  color: #555;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.proj-domain {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-blue);
+  margin-top: auto;
+}
+
+/* ==========================================================================
    WORK & CASE STUDIES SECTION (CUTTING MAT)
    ========================================================================== */
 .work-section {
@@ -743,4 +1518,139 @@ body {
   .footer-title {
     font-size: 2.2rem;
   }
+
+  /* CV Mobile Styling */
+  .cv-scrapbook-section {
+    margin-bottom: 70px;
+  }
+
+  .cv-section-heading {
+    font-size: 2.1rem;
+    line-height: 1.2;
+  }
+
+  .cv-scrap-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+    gap: 8px;
+    scrollbar-width: none;
+  }
+
+  .cv-scrap-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrap-tab-btn {
+    padding: 6px 12px;
+    font-size: 0.78rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .cv-workbench {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .scrap-deck-column {
+    position: relative;
+    top: 0;
+    width: 100%;
+  }
+
+  .scrap-deck-container {
+    height: 220px;
+    position: relative;
+    width: 100%;
+  }
+
+  .torn-paper-card {
+    width: calc(100% - 16px);
+    left: 8px;
+    padding: 16px 16px 20px;
+  }
+
+  .torn-paper-card.card-active {
+    transform: translate3d(0, 0, 15px) rotate(calc(var(--card-rot) * 0.5)) scale(1) !important;
+  }
+
+  .card-title {
+    font-size: 1.45rem;
+    margin-bottom: 4px;
+  }
+
+  .card-brief {
+    font-size: 0.82rem;
+    line-height: 1.35;
+    margin-bottom: 10px;
+  }
+
+  .scrap-deck-hint {
+    font-size: 0.95rem;
+    margin-top: 10px;
+    padding-left: 8px;
+  }
+
+  .story-board-paper {
+    padding: 24px 18px 28px;
+    min-height: auto;
+    margin-top: 6px;
+  }
+
+  .story-header-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+  }
+
+  .story-header-text {
+    flex: 1 1 0%;
+    min-width: 0;
+  }
+
+  .story-subtitle {
+    font-size: 0.92rem;
+    line-height: 1.35;
+  }
+
+  .story-doodle-container {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    margin: 0;
+  }
+
+  .story-title {
+    font-size: 1.75rem;
+    word-break: break-word;
+  }
+
+  .story-lead {
+    font-size: 1.05rem;
+  }
+
+  .skills-scrap-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .skill-scrap-full {
+    grid-column: span 1;
+  }
+
+  .cv-project-cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .cv-project-scrap-full {
+    grid-column: span 1;
+  }
 }
+
