@@ -15,3 +15,4 @@ Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts
 - Motion should feel handmade and cinematic, remain compositor-friendly, honor reduced-motion, and collapse cleanly to a legible mobile layout.
 - On mobile, the “Şu anda” milestone and university-gate artwork must remain fully visible within the completed education composition, not fall below the viewport.
 - Education timeline typography should feel substantial and editorial, with comfortable mobile reading sizes rather than a scaled-down desktop treatment.
+- Preserve the main Baran portfolio at `/`; Ertan Çelik's demo is a separate `/ertancelik/` page with a restrained, high-end tailor-made identity, real supplied photography, mobile-first composition, and accessible compositor-friendly motion.
