@@ -17,6 +17,7 @@ export function ErtanPage() {
         </div>
         <figure className="opening-image">
           <img src="/assets/ertancelik/ertan-suit.jpg" alt="Ertan Çelik siyah takım elbisesiyle" fetchPriority="high" />
+          <figcaption><span>Kurucu ve tasarımcı</span><span>İstanbul, Türkiye</span></figcaption>
         </figure>
       </section>
 
@@ -48,10 +49,11 @@ export function ErtanPage() {
       </section>
 
       <section className="perspective" aria-labelledby="perspective-title">
-        <figure>
-          <img src="/assets/ertancelik/ertan-gallery.jpg" alt="Ertan Çelik bir sanat galerisinde" loading="lazy" />
-        </figure>
-        <div>
+        <div className="perspective-images">
+          <figure><img src="/assets/ertancelik/ertan-gallery.jpg" alt="Ertan Çelik bir sanat galerisinde" loading="lazy" /></figure>
+          <figure><img src="/assets/ertancelik/ertan-residence.jpg" alt="Ertan Çelik modern bir iç mekânda" loading="lazy" /></figure>
+        </div>
+        <div className="perspective-copy">
           <h2 id="perspective-title">“Bir kıyafeti özel kılan kumaşı ve kalıbıdır.”</h2>
           <p>Ertan Çelik</p>
         </div>
@@ -59,16 +61,23 @@ export function ErtanPage() {
 
       <section className="press" id="basin" aria-labelledby="press-title">
         <h2 id="press-title">Basın</h2>
-        <a href="https://www.klassmagazin.com/ertan-celik-ertan-celik-tailor-made-ile-erkek-modasinda-fark-yaratti" target="_blank" rel="noreferrer">
-          <span>Klass Magazin</span>
-          <strong>Ertan Çelik Tailor Made ile erkek modasında fark yarattı</strong>
-          <span>02 Aralık 2025&nbsp; ↗</span>
-        </a>
+        <div className="press-list">
+          <a href="https://www.klassmagazin.com/ertan-celik-ertan-celik-tailor-made-ile-erkek-modasinda-fark-yaratti" target="_blank" rel="noreferrer">
+            <span>Klass Magazin</span>
+            <strong>Ertan Çelik Tailor Made ile erkek modasında fark yarattı</strong>
+            <span>02 Aralık 2025&nbsp; ↗</span>
+          </a>
+          <a href="https://www.klassmagazin.com/ertan-celik-kiyafetleri-hazirlarken-yuz-ve-vucut-yapisina-gore-en-iyi-kumas-ile-birlikte-en-dogru-modeli-tasarliyorum" target="_blank" rel="noreferrer">
+            <span>Klass Magazin</span>
+            <strong>En iyi kumaş ile en doğru modeli tasarlıyorum</strong>
+            <span>01 Şubat 2025&nbsp; ↗</span>
+          </a>
+        </div>
       </section>
 
       <footer>
         <div><strong>Ertan Çelik</strong><span>Tailor Made</span></div>
-        <p>İletişim bilgileri demo onayından sonra eklenecektir.</p>
+        <p>İstanbul, Türkiye</p>
         <a href="#top">Yukarı ↑</a>
       </footer>
     </main>
