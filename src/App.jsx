@@ -11,9 +11,9 @@ const navItems = [
 ];
 
 const milestones = [
-  { year: "2024", body: <><strong>Fevzi Çakmak Anadolu Lisesinden</strong> mezun oldum.</>, image: "/assets/fevzi-cakmak-school.png", alt: "Fevzi Çakmak Anadolu Lisesi binası", className: "milestone--school" },
-  { year: "2025", body: <><strong>İstanbul Üniversitesi Fizik</strong> bölümünü kazandım.</>, image: "/assets/istanbul-university-logo.png", alt: "İstanbul Üniversitesi amblemi", className: "milestone--logo" },
-  { year: "Şu anda", body: <>Eğitimime <strong>İstanbul Üniversitesi Fizik</strong> bölümünde <strong>ikinci sınıf</strong> olarak devam ediyorum.</>, image: "/assets/istanbul-university-gate.png", alt: "İstanbul Üniversitesi tarihi kapısı", className: "milestone--gate" },
+  { year: "2024", body: <><strong>Fevzi Çakmak Anadolu Lisesinden</strong> mezun oldum.</>, image: "/assets/fevzi-cakmak-school.avif", alt: "Fevzi Çakmak Anadolu Lisesi binası", className: "milestone--school" },
+  { year: "2025", body: <><strong>İstanbul Üniversitesi Fizik</strong> bölümünü kazandım.</>, image: "/assets/istanbul-university-logo.avif", alt: "İstanbul Üniversitesi amblemi", className: "milestone--logo" },
+  { year: "Şu anda", body: <>Eğitimime <strong>İstanbul Üniversitesi Fizik</strong> bölümünde <strong>ikinci sınıf</strong> olarak devam ediyorum.</>, image: "/assets/istanbul-university-gate.avif", alt: "İstanbul Üniversitesi tarihi kapısı", className: "milestone--gate" },
 ];
 
 export function App() {
@@ -165,25 +165,25 @@ export function App() {
 
   return (
     <main className="portfolio" ref={pageRef}>
-      <aside className="motif-rail motif-rail--page" aria-hidden="true"><img src="/assets/motif-rail-long.png" alt="" /></aside>
+      <aside className="motif-rail motif-rail--page" aria-hidden="true"><img src="/assets/motif-rail-long.avif" alt="" decoding="async" /></aside>
       <section className="hero" aria-label="Baran'ın portfolyo girişi">
         <nav className="primary-navigation" aria-label="Ana navigasyon">
           {navItems.map((item) => <a className={activeSection === item.label ? "is-active" : undefined} href={item.href} key={item.label} onClick={() => setActiveSection(item.label)}>{item.label}</a>)}
         </nav>
-        <article className="notebook-shell" aria-label="Baran'ın portfolyo defteri kapağı"><img className="notebook-art" src="/assets/notebook-hero.png" alt="Elinde tasarım panosu tutan Baran'ın çizildiği spiralli defter" /></article>
+        <article className="notebook-shell" aria-label="Baran'ın portfolyo defteri kapağı"><img className="notebook-art" src="/assets/notebook-hero.avif" alt="Elinde tasarım panosu tutan Baran'ın çizildiği spiralli defter" decoding="async" fetchPriority="high" /></article>
       </section>
 
       <section id="about" className="story-scroll" ref={storyRef} aria-labelledby="education-title">
         <div className="story-stage">
           <span className="story-card-target" aria-hidden="true" />
           <div className="story-card">
-            <div className="paper-layer paper-layer--kraft" aria-hidden="true"><img src="/assets/torn-kraft-paperclip.png" alt="" /></div>
+            <div className="paper-layer paper-layer--kraft" aria-hidden="true"><img src="/assets/torn-kraft-paperclip.avif" alt="" loading="lazy" decoding="async" /></div>
             <div className="paper-layer paper-layer--education">
-              <img src="/assets/torn-grid-tape.png" alt="Bantla tutturulmuş yırtık kareli kâğıt" />
+              <img src="/assets/torn-grid-tape.avif" alt="Bantla tutturulmuş yırtık kareli kâğıt" loading="lazy" decoding="async" />
               <span id="education-title" className="card-title card-title--education"><span className="card-title-word">Eğitimim<span className="red-underline" /></span></span>
             </div>
             <div className="paper-layer paper-layer--about">
-              <img src="/assets/torn-paper-card.png" alt="Yırtık çizgili kâğıt" />
+              <img src="/assets/torn-paper-card.avif" alt="Yırtık çizgili kâğıt" loading="lazy" decoding="async" />
               <span className="card-title card-title--about">Ben<br />Kimim?</span>
             </div>
           </div>
@@ -194,7 +194,7 @@ export function App() {
               <article className={`milestone ${item.className}`} key={item.year}>
                 <span className="timeline-dot" aria-hidden="true" />
                 <div className="milestone-copy"><h2 aria-label={item.year}>{[...item.year].map((character, index) => <span className="year-char" aria-hidden="true" key={`${item.year}-${index}`}>{character === " " ? "\u00a0" : character}</span>)}</h2><p>{item.body}</p></div>
-                <img className="milestone-art" src={item.image} alt={item.alt} />
+                <img className="milestone-art" src={item.image} alt={item.alt} loading="lazy" decoding="async" />
               </article>
             ))}
           </div>

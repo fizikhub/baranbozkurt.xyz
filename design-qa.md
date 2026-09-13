@@ -3,7 +3,7 @@
 ## Comparison target
 
 - Source visual truth: `/var/folders/m_/j2ychz_n08d0623hmwyvqq0w0000gn/T/TemporaryItems/NSIRD_screencaptureui_KXchMX/Ekran Resmi 2026-09-12 17.21.56.png`, with the user's requested changes: shift the notebook clear of the left motif rail, remove the three typographic overlays, and add a paper-like background texture.
-- Supporting source assets: `public/assets/notebook-hero.png` and `public/assets/motif-rail.png`.
+- Supporting source assets: `public/assets/notebook-hero.avif` and `public/assets/motif-rail.avif`.
 - Implementation screenshot: browser-rendered in-app preview at `http://192.168.1.196:4173/` (captured in the in-app browser; browser capture is not persisted as a local file).
 - Viewport: `901 x 1746` CSS px, `deviceScaleFactor: 1`.
 - State: top of the landing page; no navigation item selected.
@@ -22,7 +22,7 @@ The implementation retains the source's dark portrait composition, cream spiral 
 - Fonts and typography: navigation retains the cream handwritten treatment; removed copy no longer renders.
 - Spacing and layout rhythm: motif rail, navigation, rings, and notebook preserve the supplied visual hierarchy; notebook has been offset right to resolve the overlap.
 - Colors and visual tokens: charcoal black, cream, and signal red remain aligned with the supplied art.
-- Image quality and asset fidelity: supplied transparent PNGs are used for the notebook and motif rail; the added background is a generated raster paper texture at `public/assets/charcoal-paper-texture.png`.
+- Image quality and asset fidelity: quality-preserving AVIF assets are used for the notebook and motif rail; the added background is a generated raster paper texture at `public/assets/charcoal-paper-texture.avif`.
 - Copy and content: the three requested strings are removed.
 
 ## Interaction and technical checks
